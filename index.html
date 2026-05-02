@@ -8,18 +8,18 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { 
-            --primary-red: #e60000; 
+            --primary-red: #800000; 
             --accent: #ffd700; 
             --bg: #070707; 
             --text: white;
-            --glass: rgba(255, 255, 255, 0.03); 
+            --glass: rgba(255, 255, 255, 0.05); 
         }
 
         body.gold-theme {
             --bg: #1a1a00; 
             --text: #ffd700;
             --accent: #ffffff;
-            --glass: rgba(255, 215, 0, 0.05);
+            --glass: rgba(255, 215, 0, 0.08);
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
@@ -37,7 +37,7 @@
         .opened .logo-center { opacity: 0; pointer-events: none; }
 
         /* --- News Ticker --- */
-        .news-ticker { background: var(--primary-red); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
+        .news-ticker { background: #e60000; color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
         .ticker-content { display: inline-block; animation: ticker 25s linear infinite; font-weight: bold; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
@@ -46,11 +46,20 @@
         .theme-toggle { background: var(--glass); border: 1px solid var(--accent); color: var(--accent); padding: 8px 15px; cursor: pointer; border-radius: 5px; font-size: 0.75rem; }
 
         /* --- Hero Section --- */
-        .hero { height: 95vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(7,7,7,1)), url('akd.jpg'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .timer-box { display: inline-flex; gap: 40px; margin: 40px 0; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .hero { 
+            height: 90vh; 
+            background: radial-gradient(circle at center, #300000 0%, #070707 100%); 
+            display: flex; align-items: center; justify-content: center; text-align: center; 
+        }
+        
+        /* --- Counter Style --- */
+        .counter-container { margin-top: 20px; color: var(--accent); font-weight: bold; }
+        .counter-number { font-size: 2.5rem; display: block; margin-bottom: 5px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .counter-label { font-size: 0.9rem; color: #ccc; opacity: 0.8; }
+
+        .timer-box { display: inline-flex; gap: 40px; margin: 30px 0; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .time-unit { font-size: 2.5rem; font-weight: bold; color: var(--accent); }
 
-        /* --- Pledge Button --- */
         .pledge-btn { 
             background: none; border: 2px solid var(--accent); color: var(--accent); 
             padding: 15px 40px; font-size: 1.2rem; cursor: pointer; border-radius: 50px; 
@@ -63,15 +72,12 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; }
         .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
 
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 30px; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
-        /* --- Feedback Form Style --- */
-        .feedback-form-container { background: rgba(255, 255, 255, 0.02); padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); max-width: 800px; margin: 50px auto; }
+        /* --- Feedback Form --- */
+        .feedback-form-container { background: var(--glass); padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); max-width: 800px; margin: 50px auto; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.9rem; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
-        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
+        .submit-btn { background: #e60000; color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
     </style>
 </head>
 <body onload="initApp()">
@@ -84,12 +90,12 @@
 
 <div class="news-ticker">
     <div class="ticker-content">
-        🔴 වැදගත් පුවත: මාලිමාවෙන් නව දූෂණ විරෝධී පනතක් සම්මත කිරීමට සූදානම්... | 🔴 අධ්‍යාපනය නවීකරණය සඳහා නව තාක්ෂණික වැඩපිළිවෙළක්... | 🔴 තරුණ ව්‍යවසායකයින් සඳහා සහනදායී ණය ක්‍රමයක්...
+        🔴 දූෂණ විරෝධී පනතක් සම්මත කිරීමට සූදානම්... | 🔴 අධ්‍යාපනය නවීකරණය සඳහා නව තාක්ෂණික වැඩපිළිවෙළක්... | 🔴 තරුණ ව්‍යවසායකයින් සඳහා සහනදායී ණය ක්‍රමයක්...
     </div>
 </div>
 
 <nav>
-    <div style="font-weight: bold; font-size: 1.2rem;">ANURA <span style="color:var(--primary-red)">2029</span></div>
+    <div style="font-weight: bold; font-size: 1.2rem;">ANURA <span style="color:#e60000">2029</span></div>
     <div style="display: flex; gap: 20px; align-items: center;">
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Switch to Gold</button>
         <a href="#feedback" style="color:inherit; text-decoration:none; font-size: 0.8rem;">FEEDBACK</a>
@@ -99,6 +105,13 @@
 <section class="hero">
     <div>
         <h1 style="font-size: 3.5rem; margin: 0;">අනුර කුමාර දිසානායක</h1>
+        
+        <!-- Animated Counter Section -->
+        <div class="counter-container">
+            <span class="counter-number" id="pledgeCount">0</span>
+            <span class="counter-label">මේ වන විට රට වෙනුවෙන් පොරොන්දු වූ පිරිස</span>
+        </div>
+
         <div class="timer-box">
             <div><span class="time-unit" id="days">00</span><br><small>දින</small></div>
             <div><span class="time-unit" id="hours">00</span><br><small>පැය</small></div>
@@ -112,16 +125,13 @@
 <div class="section">
     <div class="grid">
         <div class="card">
-            <h3 style="color:var(--primary-red)">ඩිජිටල් පරිවර්තනය</h3>
+            <h3 style="color:var(--accent)">ඩිජිටල් පරිවර්තනය</h3>
             <p>IT ක්ෂේත්‍රය දියුණු කර රාජ්‍ය සේවය කාර්යක්ෂම කිරීම සහ දූෂණය පිටුදැකීම.</p>
         </div>
         <div class="card">
-            <h3 style="color:var(--primary-red)">සාධාරණ නීතිය</h3>
+            <h3 style="color:var(--accent)">සාධාරණ නීතිය</h3>
             <p>සැමට සමාන නීතියක් සහ සාධාරණත්වයක් සහිත රටක් ගොඩනැගීම.</p>
         </div>
-    </div>
-    <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
     </div>
 </div>
 
@@ -161,34 +171,49 @@
 <script>
     function openSite() {
         document.getElementById('welcome-screen').classList.add('opened');
-        setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
+        setTimeout(() => { 
+            document.getElementById('welcome-screen').style.display = 'none';
+            animateCounter(); // සයිට් එක ඕපන් වුණාම කවුන්ටරය ස්ටාර්ට් කරන්න
+        }, 1200);
+    }
+
+    // Counter Animation function
+    function animateCounter() {
+        const target = 15240; // අපිට අවශ්‍ය අගය
+        const speed = 50; // වේගය
+        const countElement = document.getElementById('pledgeCount');
+        let currentCount = 14000; // ආරම්භක අගය
+
+        const updateCount = setInterval(() => {
+            currentCount += Math.floor(Math.random() * 50) + 10;
+            if (currentCount >= target) {
+                countElement.innerText = target.toLocaleString();
+                clearInterval(updateCount);
+            } else {
+                countElement.innerText = currentCount.toLocaleString();
+            }
+        }, 30);
     }
 
     function makePledge() {
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff0000', '#ffd700', '#ffffff'] });
-        alert("ඔබේ පොරොන්දුව සාර්ථකව සටහන් විය! රට වෙනුවෙන් පෙළ ගැසෙමු.");
+        alert("ඔබේ පොරොන්දුව සාර්ථකව සටහන් විය!");
     }
 
     function toggleTheme() {
         const body = document.body;
-        const btn = document.getElementById('themeBtn');
         if (body.classList.contains('gold-theme')) {
             body.classList.remove('gold-theme');
-            btn.innerText = "Switch to Gold";
             localStorage.setItem('theme', 'dark');
         } else {
             body.classList.add('gold-theme');
-            btn.innerText = "Switch to Dark";
             localStorage.setItem('theme', 'gold');
         }
     }
 
     function initApp() {
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'gold') {
-            document.body.classList.add('gold-theme');
-            document.getElementById('themeBtn').innerText = "Switch to Dark";
-        }
+        if (savedTheme === 'gold') document.body.classList.add('gold-theme');
         updateTimer();
         setInterval(updateTimer, 60000);
     }
@@ -197,9 +222,9 @@
     function updateTimer() {
         const now = new Date().getTime();
         const diff = targetDate - now;
-        document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        document.getElementById('mins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
     }
 </script>
 
