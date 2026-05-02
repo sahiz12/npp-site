@@ -68,7 +68,7 @@
         .pledge-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(230, 0, 0, 0.5); }
 
         /* --- Social Bar --- */
-        .social-bar { display: flex; justify-content: center; gap: 25px; margin: 30px 0; }
+        .social-bar { display: flex; justify-content: center; gap: 25px; margin: 20px 0; }
         .social-icon { color: white; font-size: 1.8rem; transition: 0.3s; }
         .social-icon:hover { color: var(--accent); transform: scale(1.2); }
 
@@ -85,7 +85,7 @@
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.9rem; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
-        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; font-size: 1rem; }
     </style>
 </head>
 <body onload="initApp()">
@@ -150,7 +150,6 @@
     <div class="feedback-form-container">
         <h2 style="text-align: center; color: var(--accent); margin-bottom: 10px;">අදහස් සහ සම්බන්ධතා</h2>
         
-        <!-- මෙන්න සහිරු Social Media ලින්ක් ටික දාන්න ඕන තැන -->
         <div class="social-bar">
             <a href="#" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
             <a href="#" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
@@ -159,9 +158,14 @@
         </div>
 
         <form action="https://formspree.io/f/xnjwnyjg" method="POST">
+            <!-- මෙන්න ප්‍රශ්න 4ම තියෙනවා සහිරු -->
             <div class="form-group">
-                <label>විවේචනය කිරීමට හේතුව:</label>
+                <label>NPP එකට අකමැති වීමට හෝ විවේචනය කිරීමට හේතුව:</label>
                 <textarea name="rejection_reason" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>අනිත් ආණ්ඩු වලින් කළ හොඳම දේ කුමක්ද?</label>
+                <textarea name="other_gov_merit"></textarea>
             </div>
             <div class="form-group">
                 <label>අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
@@ -169,7 +173,12 @@
                     <option value="it">IT / තාක්ෂණය</option>
                     <option value="economy">ආර්ථිකය</option>
                     <option value="education">අධ්‍යාපනය</option>
+                    <option value="agriculture">කෘෂිකර්මය</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label>ඔබේ නම (අත්‍යවශ්‍ය නොවේ):</label>
+                <input type="text" name="name">
             </div>
             <button type="submit" class="submit-btn">අදහස ඉදිරිපත් කරන්න</button>
         </form>
