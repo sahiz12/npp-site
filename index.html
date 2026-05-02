@@ -6,25 +6,23 @@
     <title>Anura 2029 | ජාතික මෙහෙවර</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables - Theme එක මාරු කරන්න මේවා උදව් වෙනවා */
         :root { 
             --primary-red: #e60000; 
-            --accent: #ffd700; /* Default Gold */
+            --accent: #ffd700; 
             --bg: #070707; 
             --text: white;
             --glass: rgba(255, 255, 255, 0.03); 
         }
 
-        /* Gold Theme එකේදී වෙනස් වන වර්ණ */
         body.gold-theme {
-            --bg: #1a1a00; /* Very deep gold/black */
+            --bg: #1a1a00; 
             --text: #ffd700;
             --accent: #ffffff;
             --glass: rgba(255, 215, 0, 0.05);
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; transition: background 0.5s, color 0.5s; }
+        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; transition: 0.5s; }
 
         /* --- Welcome Screen --- */
         #welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; cursor: pointer; background: #000; }
@@ -37,31 +35,25 @@
         .logo-text { font-size: 3rem; font-weight: bold; color: #ffd700; letter-spacing: 10px; margin: 0; }
         .opened .logo-center { opacity: 0; pointer-events: none; }
 
-        /* --- Theme Switcher Button --- */
-        .theme-toggle {
-            background: var(--glass);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 8px 15px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .theme-toggle:hover { background: var(--accent); color: black; }
-
-        /* --- UI Elements --- */
+        /* --- Navigation --- */
         nav { background: rgba(0,0,0,0.9); padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #111; }
-        .hero { height: 95vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(7,7,7,1)), url('akd.jpg'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .theme-toggle { background: var(--glass); border: 1px solid var(--accent); color: var(--accent); padding: 8px 15px; cursor: pointer; border-radius: 5px; font-size: 0.75rem; }
+
+        /* --- Hero Section --- */
+        .hero { height: 95vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(7,7,7,1)), url('akd.jpg'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
         .timer-box { display: inline-flex; gap: 40px; margin-top: 40px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .time-unit { font-size: 2.5rem; font-weight: bold; color: var(--accent); }
-        
-        .section { padding: 100px 8%; max-width: 1400px; margin: auto; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; border: 1px solid #333; overflow: hidden; }
+
+        /* --- Policy Cards --- */
+        .section { padding: 80px 8%; max-width: 1400px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: 0.4s; }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary-red); }
+
+        /* --- Media --- */
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 30px; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .news-frame { width: 100%; height: 600px; border: 1px solid #222; border-radius: 10px; background: white; }
+        .news-frame { width: 100%; height: 600px; border: 1px solid #222; border-radius: 15px; background: white; margin-top: 30px; }
     </style>
 </head>
 <body onload="initApp()">
@@ -73,28 +65,49 @@
 </div>
 
 <nav>
-    <div style="font-weight: bold; font-size: 1.2rem; letter-spacing: 2px;">ANURA <span style="color:var(--primary-red)">2029</span></div>
+    <div style="font-weight: bold; font-size: 1.2rem;">ANURA <span style="color:var(--primary-red)">2029</span></div>
     <div style="display: flex; gap: 20px; align-items: center;">
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Switch to Gold</button>
-        <a href="#news" style="color:#888; text-decoration:none; font-size: 0.8rem;">UPDATES</a>
+        <a href="#policies" style="color:inherit; text-decoration:none; font-size: 0.8rem;">ප්‍රතිපත්ති</a>
+        <a href="#news" style="color:inherit; text-decoration:none; font-size: 0.8rem;">පුවත්</a>
     </div>
 </nav>
 
 <section class="hero">
-    <div style="backdrop-filter: blur(2px); padding: 40px; border-radius: 20px;">
-        <p style="color: var(--primary-red); letter-spacing: 5px; font-size: 0.9rem; text-transform: uppercase;">The Future of Sri Lanka</p>
-        <h1 style="font-size: 3.5rem; margin: 15px 0;">අනුර කුමාර දිසානායක</h1>
-        
+    <div>
+        <h1 style="font-size: 3.5rem; margin: 0;">අනුර කුමාර දිසානායක</h1>
         <div class="timer-box">
-            <div><span class="time-unit" id="days">00</span><br><small>Days</small></div>
-            <div><span class="time-unit" id="hours">00</span><br><small>Hours</small></div>
-            <div><span class="time-unit" id="mins">00</span><br><small>Mins</small></div>
+            <div><span class="time-unit" id="days">00</span><br><small>දින</small></div>
+            <div><span class="time-unit" id="hours">00</span><br><small>පැය</small></div>
+            <div><span class="time-unit" id="mins">00</span><br><small>විනාඩි</small></div>
         </div>
     </div>
 </section>
 
-<div id="news" class="section">
-    <h2 style="text-align: center; margin-bottom: 50px;">සජීවී පුවත්</h2>
+<div id="policies" class="section">
+    <h2 style="text-align: center; color: var(--accent); margin-bottom: 50px;">අපේ වැඩපිළිවෙළ</h2>
+    <div class="grid">
+        <div class="card">
+            <h3 style="color:var(--primary-red)">ඩිජිටල් විප්ලවය</h3>
+            <p>IT ක්ෂේත්‍රය දියුණු කර තරුණ පරපුරට ලෝකය දිනන්න අවස්ථාව ලබා දීම.</p>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--primary-red)">සාධාරණ නීතිය</h3>
+            <p>දූෂණයෙන් තොර, සැමට සමාන නීතියක් සහිත යහපත් පාලනයක්.</p>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--primary-red)">අධ්‍යාපන නවීකරණය</h3>
+            <p>විශ්වවිද්‍යාල සහ පාසල් පද්ධතිය නවීන තාක්ෂණයට අනුකූලව සකස් කිරීම.</p>
+        </div>
+    </div>
+
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
+
+<div id="news" class="section" style="border-top: 1px solid #111;">
+    <h2 style="text-align: center; margin-bottom: 40px;">සජීවී පුවත්</h2>
     <iframe class="news-frame" src="https://www.bing.com/news/search?q=Anura+Kumara+Dissanayake&qft=sortbydate%3d%221%22&form=NWRFSH" frameborder="0"></iframe>
 </div>
 
@@ -108,11 +121,9 @@
         setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
     }
 
-    // Theme Toggle Function
     function toggleTheme() {
         const body = document.body;
         const btn = document.getElementById('themeBtn');
-        
         if (body.classList.contains('gold-theme')) {
             body.classList.remove('gold-theme');
             btn.innerText = "Switch to Gold";
@@ -124,15 +135,12 @@
         }
     }
 
-    // Initialize Theme and Timer
     function initApp() {
-        // Theme Check
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'gold') {
             document.body.classList.add('gold-theme');
             document.getElementById('themeBtn').innerText = "Switch to Dark";
         }
-
         updateTimer();
         setInterval(updateTimer, 60000);
     }
