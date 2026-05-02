@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { 
-            --primary-red: #800000; 
+            --primary-red: #e60000; 
             --accent: #ffd700; 
             --bg: #070707; 
             --text: white;
@@ -37,7 +37,7 @@
         .opened .logo-center { opacity: 0; pointer-events: none; }
 
         /* --- News Ticker --- */
-        .news-ticker { background: #e60000; color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
+        .news-ticker { background: var(--primary-red); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
         .ticker-content { display: inline-block; animation: ticker 25s linear infinite; font-weight: bold; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
@@ -47,37 +47,40 @@
 
         /* --- Hero Section --- */
         .hero { 
-            height: 90vh; 
-            background: radial-gradient(circle at center, #300000 0%, #070707 100%); 
+            height: 95vh; 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(7,7,7,1)), url('akd.jpg'); 
+            background-size: cover; background-position: center;
             display: flex; align-items: center; justify-content: center; text-align: center; 
         }
         
-        /* --- Counter Style --- */
-        .counter-container { margin-top: 20px; color: var(--accent); font-weight: bold; }
-        .counter-number { font-size: 2.5rem; display: block; margin-bottom: 5px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-        .counter-label { font-size: 0.9rem; color: #ccc; opacity: 0.8; }
+        .counter-container { margin: 15px 0; color: var(--accent); font-weight: bold; }
+        .counter-number { font-size: 3rem; display: block; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+        .counter-label { font-size: 0.9rem; color: #eee; text-transform: uppercase; letter-spacing: 1px; }
 
-        .timer-box { display: inline-flex; gap: 40px; margin: 30px 0; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .time-unit { font-size: 2.5rem; font-weight: bold; color: var(--accent); }
+        .timer-box { display: inline-flex; gap: 30px; margin: 20px 0; padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .time-unit { font-size: 2rem; font-weight: bold; color: var(--accent); }
 
         .pledge-btn { 
-            background: none; border: 2px solid var(--accent); color: var(--accent); 
-            padding: 15px 40px; font-size: 1.2rem; cursor: pointer; border-radius: 50px; 
-            transition: 0.3s; font-weight: bold; margin-top: 20px;
+            background: var(--primary-red); border: none; color: white; 
+            padding: 15px 40px; font-size: 1.1rem; cursor: pointer; border-radius: 50px; 
+            transition: 0.3s; font-weight: bold; box-shadow: 0 4px 15px rgba(230, 0, 0, 0.3);
         }
-        .pledge-btn:hover { background: var(--accent); color: black; box-shadow: 0 0 20px var(--accent); }
+        .pledge-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(230, 0, 0, 0.5); }
 
         /* --- Sections --- */
-        .section { padding: 80px 8%; max-width: 1400px; margin: auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .section { padding: 60px 8%; max-width: 1200px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
 
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
         /* --- Feedback Form --- */
-        .feedback-form-container { background: var(--glass); padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); max-width: 800px; margin: 50px auto; }
-        .form-group { margin-bottom: 20px; }
+        .feedback-form-container { background: var(--glass); padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); max-width: 700px; margin: 40px auto; }
+        .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.9rem; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
-        .submit-btn { background: #e60000; color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; font-size: 1rem; }
     </style>
 </head>
 <body onload="initApp()">
@@ -95,7 +98,7 @@
 </div>
 
 <nav>
-    <div style="font-weight: bold; font-size: 1.2rem;">ANURA <span style="color:#e60000">2029</span></div>
+    <div style="font-weight: bold; font-size: 1.2rem;">ANURA <span style="color:var(--primary-red)">2029</span></div>
     <div style="display: flex; gap: 20px; align-items: center;">
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Switch to Gold</button>
         <a href="#feedback" style="color:inherit; text-decoration:none; font-size: 0.8rem;">FEEDBACK</a>
@@ -104,12 +107,11 @@
 
 <section class="hero">
     <div>
-        <h1 style="font-size: 3.5rem; margin: 0;">අනුර කුමාර දිසානායක</h1>
+        <h1 style="font-size: 3.5rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">අනුර කුමාර දිසානායක</h1>
         
-        <!-- Animated Counter Section -->
         <div class="counter-container">
             <span class="counter-number" id="pledgeCount">0</span>
-            <span class="counter-label">මේ වන විට රට වෙනුවෙන් පොරොන්දු වූ පිරිස</span>
+            <span class="counter-label">පොරොන්දු වූ සංඛ්‍යාව</span>
         </div>
 
         <div class="timer-box">
@@ -133,24 +135,25 @@
             <p>සැමට සමාන නීතියක් සහ සාධාරණත්වයක් සහිත රටක් ගොඩනැගීම.</p>
         </div>
     </div>
+
+    <!-- YouTube Video එක මෙතන තියෙනවා -->
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
+    </div>
 </div>
 
 <div id="feedback" class="section">
     <div class="feedback-form-container">
-        <h2 style="text-align: center; color: var(--accent);">Feedback Form</h2>
+        <h2 style="text-align: center; color: var(--accent); margin-bottom: 30px;">ඔබේ අදහස් එවන්න</h2>
         <form action="https://formspree.io/f/xnjwnyjg" method="POST">
             <div class="form-group">
-                <label>NPP එකට අකමැති වීමට හෝ විවේචනය කිරීමට හේතුව:</label>
+                <label>විවේචනය කිරීමට හේතුව:</label>
                 <textarea name="rejection_reason" required></textarea>
-            </div>
-            <div class="form-group">
-                <label>අනිත් ආණ්ඩු වලින් කළ හොඳම දේ කුමක්ද?</label>
-                <textarea name="other_gov_merits"></textarea>
             </div>
             <div class="form-group">
                 <label>අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
                 <select name="target_area">
-                    <option value="it">IT/තාක්ෂණය</option>
+                    <option value="it">IT / තාක්ෂණය</option>
                     <option value="economy">ආර්ථිකය</option>
                     <option value="education">අධ්‍යාපනය</option>
                 </select>
@@ -164,7 +167,7 @@
     </div>
 </div>
 
-<footer style="text-align: center; padding: 40px; color: #444; font-size: 0.7rem;">
+<footer style="text-align: center; padding: 40px; color: #555; font-size: 0.8rem; border-top: 1px solid #111;">
     <p>&copy; 2026 Developed by Sahiru | Target: MORA IT</p>
 </footer>
 
@@ -173,19 +176,17 @@
         document.getElementById('welcome-screen').classList.add('opened');
         setTimeout(() => { 
             document.getElementById('welcome-screen').style.display = 'none';
-            animateCounter(); // සයිට් එක ඕපන් වුණාම කවුන්ටරය ස්ටාර්ට් කරන්න
+            animateCounter();
         }, 1200);
     }
 
-    // Counter Animation function
     function animateCounter() {
-        const target = 15240; // අපිට අවශ්‍ය අගය
-        const speed = 50; // වේගය
+        const target = 15240;
         const countElement = document.getElementById('pledgeCount');
-        let currentCount = 14000; // ආරම්භක අගය
+        let currentCount = 14000; 
 
         const updateCount = setInterval(() => {
-            currentCount += Math.floor(Math.random() * 50) + 10;
+            currentCount += Math.floor(Math.random() * 50) + 20;
             if (currentCount >= target) {
                 countElement.innerText = target.toLocaleString();
                 clearInterval(updateCount);
