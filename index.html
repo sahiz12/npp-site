@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anura 2029 | ජාතික මෙහෙවර</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Confetti Library එක මෙතනින් ගන්නවා -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { 
             --primary-red: #e60000; 
@@ -44,13 +46,29 @@
         .timer-box { display: inline-flex; gap: 40px; margin-top: 40px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .time-unit { font-size: 2.5rem; font-weight: bold; color: var(--accent); }
 
+        /* --- Pledge Button Style --- */
+        .pledge-container { text-align: center; margin: 50px 0; }
+        .pledge-btn { 
+            background: var(--primary-red); 
+            color: white; 
+            border: none; 
+            padding: 20px 40px; 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border-radius: 50px; 
+            box-shadow: 0 10px 20px rgba(230, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+        .pledge-btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(230, 0, 0, 0.5); }
+        .pledge-btn:active { transform: scale(0.95); }
+
         /* --- Policy Cards --- */
         .section { padding: 80px 8%; max-width: 1400px; margin: auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: 0.4s; }
         .card:hover { transform: translateY(-10px); border-color: var(--primary-red); }
 
-        /* --- Media --- */
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 30px; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .news-frame { width: 100%; height: 600px; border: 1px solid #222; border-radius: 15px; background: white; margin-top: 30px; }
@@ -85,6 +103,11 @@
 </section>
 
 <div id="policies" class="section">
+    <div class="pledge-container">
+        <h2 id="pledge-text">ඔබත් මේ ගමනට සූදානම්ද?</h2>
+        <button class="pledge-btn" onclick="celebrate()">මමත් පුනරුදයට එකඟයි</button>
+    </div>
+
     <h2 style="text-align: center; color: var(--accent); margin-bottom: 50px;">අපේ වැඩපිළිවෙළ</h2>
     <div class="grid">
         <div class="card">
@@ -119,6 +142,36 @@
     function openSite() {
         document.getElementById('welcome-screen').classList.add('opened');
         setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
+    }
+
+    // Confetti Animation Function
+    function celebrate() {
+        // රතු සහ රන්වන් පාටින් Confetti වැස්සක්
+        const duration = 3 * 1000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 7,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#e60000', '#ffd700']
+            });
+            confetti({
+                particleCount: 7,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#e60000', '#ffd700']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+        
+        document.getElementById('pledge-text').innerText = "ස්තූතියි! අපි එක්ව රට හදමු.";
     }
 
     function toggleTheme() {
