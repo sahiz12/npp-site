@@ -1,0 +1,87 @@
+<!-- සහිරුගේ NPP Final Site - V2 -->
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPP | සැබෑ වෙනසකට නායකත්වය</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --jvp-red: #ff3e3e; --dark: #0f0f0f; }
+        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
+        
+        .nav { padding: 20px; text-align: center; background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--jvp-red); }
+        .hero { height: 40vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://www.npp.lk/en/assets/img/slider/slide-1.jpg'); background-size: cover; text-align: center; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 50px 10% 50px 10%; }
+        
+        .card { background: #1a1a1a; border-radius: 20px; padding: 25px; text-align: center; border: 1px solid #333; transition: 0.3s; cursor: pointer; }
+        .card:hover { border-color: var(--jvp-red); transform: translateY(-10px); box-shadow: 0 10px 30px rgba(255, 62, 62, 0.2); }
+        .card img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--jvp-red); margin-bottom: 15px; object-fit: cover; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .modal-content { background: #111; padding: 40px; border-radius: 30px; border: 1px solid var(--jvp-red); max-width: 500px; width: 90%; text-align: center; position: relative; }
+        .close { position: absolute; top: 20px; right: 20px; font-size: 30px; cursor: pointer; color: var(--jvp-red); }
+        
+        .btn { background: var(--jvp-red); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 20px; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+
+<div class="nav"><h2>NPP INTERACTIVE HUB</h2></div>
+
+<div class="hero">
+    <div>
+        <h1>පොහොසත් රටක් - ලස්සන ජීවිතයක්</h1>
+        <p>නායකත්වය ගැන දැනගන්න පහත රූපයක් තෝරන්න</p>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="card" onclick="show('akd')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Anura_Kumara_Dissanayaka.jpg/640px-Anura_Kumara_Dissanayaka.jpg" alt="AKD">
+        <h3>අනුර කුමාර දිසානායක</h3>
+        <p>නොනැවත්ව ඉදිරියට...</p>
+    </div>
+    <div class="card" onclick="show('rw')">
+        <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Patabendi_Don_Nandasiri_Rohana_Wijeweera.jpg" alt="RW">
+        <h3>රෝහණ විජේවීර</h3>
+        <p>අමරණීය නායකයා</p>
+    </div>
+    <div class="card" onclick="show('ts')">
+        <img src="https://www.npp.lk/en/assets/img/team/tilvin-silva.jpg" alt="TS">
+        <h3>ටිල්වින් සිල්වා</h3>
+        <p>සංවිධාන ශක්තිය</p>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="hide()">&times;</span>
+        <img id="m-img" src="" style="width:150px; height:150px; border-radius:50%; border:4px solid var(--jvp-red);">
+        <h2 id="m-name"></h2>
+        <p id="m-desc"></p>
+        <a href="https://npp.lk" target="_blank" class="btn">වැඩිදුර විස්තර</a>
+    </div>
+</div>
+
+<script>
+    const data = {
+        'akd': { name: 'අනුර කුමාර දිසානායක', desc: 'ජාතික ජන බලවේගයේ නායක සහ ශ්‍රී ලංකාවේ වත්මන් දේශපාලන ක්‍රියාවලියේ ප්‍රධානතම නියමුවායි.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Anura_Kumara_Dissanayaka.jpg/640px-Anura_Kumara_Dissanayaka.jpg' },
+        'rw': { name: 'රෝහණ විජේවීර', desc: 'ජනතා විමුක්ති පෙරමුණේ නිර්මාතෘවරයා වන මොහු, මෙරට වාමාංශික දේශපාලනය වෙනස් කළ විශිෂ්ඨ නායකයෙකි.', img: 'https://upload.wikimedia.org/wikipedia/en/2/23/Patabendi_Don_Nandasiri_Rohana_Wijeweera.jpg' },
+        'ts': { name: 'ටිල්වින් සිල්වා', desc: 'ජනතා විමුක්ති පෙරමුණේ ප්‍රධාන ලේකම්වරයා ලෙස පක්ෂ යාන්ත්‍රණය ශක්තිමත් කිරීමට කැපවී ක්‍රියා කරන නායකයෙකි.', img: 'https://www.npp.lk/en/assets/img/team/tilvin-silva.jpg' }
+    };
+
+    function show(id) {
+        document.getElementById('m-name').innerText = data[id].name;
+        document.getElementById('m-desc').innerText = data[id].desc;
+        document.getElementById('m-img').src = data[id].img;
+        document.getElementById('modal').style.display = 'flex';
+    }
+    function hide() { document.getElementById('modal').style.display = 'none'; }
+</script>
+
+</body>
+</html>
