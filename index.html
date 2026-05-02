@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anura 2029 | ජාතික මෙහෙවර</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { 
@@ -33,7 +34,6 @@
         .opened .left-curtain { transform: translateX(-100%); }
         .opened .right-curtain { transform: translateX(100%); }
         .logo-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 10001; transition: opacity 0.5s; text-align: center; }
-        .logo-text { font-size: 3rem; font-weight: bold; color: #ffd700; letter-spacing: 10px; margin: 0; }
         .opened .logo-center { opacity: 0; pointer-events: none; }
 
         /* --- News Ticker --- */
@@ -67,12 +67,17 @@
         }
         .pledge-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(230, 0, 0, 0.5); }
 
+        /* --- Social Bar --- */
+        .social-bar { display: flex; justify-content: center; gap: 25px; margin: 30px 0; }
+        .social-icon { color: white; font-size: 1.8rem; transition: 0.3s; }
+        .social-icon:hover { color: var(--accent); transform: scale(1.2); }
+
         /* --- Sections --- */
         .section { padding: 60px 8%; max-width: 1200px; margin: auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
 
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 40px; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         /* --- Feedback Form --- */
@@ -80,13 +85,13 @@
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.9rem; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
-        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; font-size: 1rem; }
+        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
     </style>
 </head>
 <body onload="initApp()">
 
 <div id="welcome-screen" onclick="openSite()">
-    <div class="logo-center"><p class="logo-text">NPP</p></div>
+    <div class="logo-center"><h1 style="color:#ffd700; font-size: 3.5rem; letter-spacing: 15px;">NPP</h1></div>
     <div class="curtain left-curtain"></div>
     <div class="curtain right-curtain"></div>
 </div>
@@ -136,7 +141,6 @@
         </div>
     </div>
 
-    <!-- YouTube Video එක මෙතන තියෙනවා -->
     <div class="video-container">
         <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
     </div>
@@ -144,7 +148,16 @@
 
 <div id="feedback" class="section">
     <div class="feedback-form-container">
-        <h2 style="text-align: center; color: var(--accent); margin-bottom: 30px;">ඔබේ අදහස් එවන්න</h2>
+        <h2 style="text-align: center; color: var(--accent); margin-bottom: 10px;">අදහස් සහ සම්බන්ධතා</h2>
+        
+        <!-- මෙන්න සහිරු Social Media ලින්ක් ටික දාන්න ඕන තැන -->
+        <div class="social-bar">
+            <a href="#" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+            <a href="#" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
+            <a href="#" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+
         <form action="https://formspree.io/f/xnjwnyjg" method="POST">
             <div class="form-group">
                 <label>විවේචනය කිරීමට හේතුව:</label>
@@ -157,10 +170,6 @@
                     <option value="economy">ආර්ථිකය</option>
                     <option value="education">අධ්‍යාපනය</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <label>නම (Optional):</label>
-                <input type="text" name="name">
             </div>
             <button type="submit" class="submit-btn">අදහස ඉදිරිපත් කරන්න</button>
         </form>
