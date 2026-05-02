@@ -48,50 +48,33 @@
         /* --- Sections --- */
         .section { padding: 80px 8%; max-width: 1400px; margin: auto; }
 
-        /* --- Pledge Button --- */
-        .pledge-container { text-align: center; margin: 50px 0; }
-        .pledge-btn { 
-            background: var(--primary-red); 
-            color: white; 
-            border: none; 
-            padding: 20px 40px; 
-            font-size: 1.2rem; 
-            font-weight: bold; 
-            cursor: pointer; 
-            border-radius: 50px; 
-            transition: 0.3s;
-        }
-        .pledge-btn:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(230, 0, 0, 0.4); }
-
         /* --- Feedback Form Style --- */
         .feedback-form-container { 
             background: rgba(255, 255, 255, 0.02); 
-            padding: 50px; 
+            padding: 40px; 
             border-radius: 20px; 
             border: 1px solid rgba(255, 255, 255, 0.05); 
             max-width: 800px; 
             margin: 50px auto; 
         }
-        .form-title { color: var(--accent); text-align: center; margin-bottom: 40px; }
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.95rem; }
+        .form-title { color: var(--accent); text-align: center; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.9rem; }
         .form-group input, .form-group textarea, .form-group select { 
             width: 100%; 
-            padding: 15px; 
+            padding: 12px; 
             background: rgba(0, 0, 0, 0.3); 
             border: 1px solid #333; 
             color: white; 
             border-radius: 8px; 
             font-family: inherit; 
         }
-        .form-group textarea { height: 150px; resize: none; }
-        .form-group select option { background: #1a1a00; } /* Dark option background for Gold theme */
-
+        .form-group textarea { height: 120px; resize: none; }
         .submit-btn { 
-            background: #222; 
+            background: var(--primary-red); 
             color: white; 
-            border: 1px solid #444; 
-            padding: 15px 30px; 
+            border: none; 
+            padding: 15px; 
             width: 100%; 
             cursor: pointer; 
             border-radius: 8px; 
@@ -99,12 +82,7 @@
             font-weight: bold; 
             transition: 0.3s;
         }
-        .submit-btn:hover { background: #333; border-color: var(--accent); color: var(--accent); }
-
-        /* --- Media --- */
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 30px; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .news-frame { width: 100%; height: 600px; border: 1px solid #222; border-radius: 15px; background: white; margin-top: 30px; }
+        .submit-btn:hover { transform: scale(1.02); background: #b30000; }
     </style>
 </head>
 <body onload="initApp()">
@@ -120,7 +98,6 @@
     <div style="display: flex; gap: 20px; align-items: center;">
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Switch to Gold</button>
         <a href="#feedback" style="color:inherit; text-decoration:none; font-size: 0.8rem;">ප්‍රතිපෝෂණ</a>
-        <a href="#news" style="color:inherit; text-decoration:none; font-size: 0.8rem;">පුවත්</a>
     </div>
 </nav>
 
@@ -136,57 +113,40 @@
 </section>
 
 <div id="feedback" class="section">
-    <div class="pledge-container">
-        <h2 id="pledge-text">ඔබත් මේ ගමනට සූදානම්ද?</h2>
-        <button class="pledge-btn" onclick="celebrate()">මමත් පුනරුදයට එකඟයි</button>
-    </div>
-
     <div class="feedback-form-container">
-        <h2 class="form-title">ප්‍රතිපෝෂණ සහ අදහස් (Feedback)</h2>
-        <p style="text-align: center; color: #aaa; margin-bottom: 30px;">ඔබ NPP/අනුර කුමාර මහතාට අකමැති නම් හෝ කිසියම් විවේචනයක් තිබේ නම්, එය අපට පවසන්න. ඔබේ අදහස අපට වටිනවා.</p>
+        <h2 class="form-title">Feedback Form</h2>
+        <p style="text-align: center; color: #aaa; margin-bottom: 30px;">ඔබේ අදහස් අපට වැදගත් වේ.</p>
         
-        <!-- Form එක මෙතනින් පටන් ගන්නවා (Data Handling) -->
-        <form id="nppFeedbackForm">
-            <!-- කොටස A: NPP/AKD පිළිබඳ විවේචන -->
+        <!-- සහිරුගේ Formspree URL එක මෙතන තියෙනවා -->
+        <form action="https://formspree.io/f/xnjwnyjg" method="POST">
             <div class="form-group">
-                <label>1. ඔබ NPP/අනුර කුමාර මහතාට අකමැති වීමට හෝ විවේචනය කිරීමට ප්‍රධාන හේතුව කුමක්ද?</label>
-                <textarea name="main_reason" required placeholder="ඔබේ අදහස මෙතන ලියන්න..."></textarea>
+                <label>NPP එකට අකමැති වීමට හෝ විවේචනය කිරීමට හේතුව:</label>
+                <textarea name="rejection_reason" required></textarea>
             </div>
 
             <div class="form-group">
-                <label>2. පසුගිය ආණ්ඩු (උදා: UNP, SLFP, SLPP) මගින් සිදු කරන ලද, ඔබ වඩාත්ම අගය කරන කාර්යයන් මොනවාද?</label>
-                <textarea name="past_governments" placeholder="පෙර ආණ්ඩු වල හොඳ වැඩ මෙතන ලියන්න..."></textarea>
+                <label>අනිත් ආණ්ඩු වලින් කළ හොඳම දේ කුමක්ද?</label>
+                <textarea name="other_gov_merits"></textarea>
             </div>
 
             <div class="form-group">
-                <label>3. ඔබ සිතන පරිදි, NPP එක විසින් මීට වඩා අවධානය යොමු කළ යුතු ක්ෂේත්‍රය කුමක්ද?</label>
-                <select name="priority_area">
-                    <option value="">ක්ෂේත්‍රයක් තෝරන්න...</option>
+                <label>අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
+                <select name="target_area">
                     <option value="economy">ආර්ථිකය</option>
-                    <option value="education">අධ්‍යාපනය</option>
-                    <option value="law">නීතිය සහ දූෂණය</option>
                     <option value="it">IT/තාක්ෂණය</option>
-                    <option value="agriculture">කෘෂිකර්මය</option>
+                    <option value="education">අධ්‍යාපනය</option>
                     <option value="other">වෙනත්</option>
                 </select>
             </div>
 
-            <!-- කොටස B: විස්තර (Optional) -->
-            <p style="border-top: 1px solid #333; padding-top: 20px; color: var(--accent); margin-top: 30px; text-align: center;">කැමති නම් පමණක් පහත විස්තර ලබා දෙන්න.</p>
-            
             <div class="form-group">
-                <label>නම (Optional):</label>
-                <input type="text" name="user_name" placeholder="ඔබේ නම">
+                <label>ඔබේ නම (Optional):</label>
+                <input type="text" name="name">
             </div>
 
             <div class="form-group">
-                <label>ඊමේල් ලිපිනය (Optional):</label>
-                <input type="email" name="user_email" placeholder="email@example.com">
-            </div>
-
-            <div class="form-group">
-                <label>ඔබ ජීවත් වන ප්‍රදේශය/දිස්ත්‍රික්කය:</label>
-                <input type="text" name="user_location" placeholder="ගම්පහ / කොළඹ ආදිය">
+                <label>දිස්ත්‍රික්කය:</label>
+                <input type="text" name="district">
             </div>
 
             <button type="submit" class="submit-btn">අදහස ඉදිරිපත් කරන්න</button>
@@ -194,12 +154,7 @@
     </div>
 </div>
 
-<div id="news" class="section" style="border-top: 1px solid #111;">
-    <h2 style="text-align: center; margin-bottom: 40px;">සජීවී පුවත්</h2>
-    <iframe class="news-frame" src="https://www.bing.com/news/search?q=Anura+Kumara+Dissanayake&qft=sortbydate%3d%221%22&form=NWRFSH" frameborder="0"></iframe>
-</div>
-
-<footer style="text-align: center; padding: 50px; color: #444; font-size: 0.7rem;">
+<footer style="text-align: center; padding: 40px; color: #444; font-size: 0.7rem;">
     <p>&copy; 2026 Developed by Sahiru | Target: MORA IT</p>
 </footer>
 
@@ -207,17 +162,6 @@
     function openSite() {
         document.getElementById('welcome-screen').classList.add('opened');
         setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
-    }
-
-    function celebrate() {
-        const duration = 3 * 1000;
-        const end = Date.now() + duration;
-        (function frame() {
-            confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e60000', '#ffd700'] });
-            confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e60000', '#ffd700'] });
-            if (Date.now() < end) requestAnimationFrame(frame);
-        }());
-        document.getElementById('pledge-text').innerText = "ස්තූතියි! අපි එක්ව රට හදමු.";
     }
 
     function toggleTheme() {
