@@ -36,36 +36,42 @@
         .logo-text { font-size: 3rem; font-weight: bold; color: #ffd700; letter-spacing: 10px; margin: 0; }
         .opened .logo-center { opacity: 0; pointer-events: none; }
 
+        /* --- News Ticker --- */
+        .news-ticker { background: var(--primary-red); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
+        .ticker-content { display: inline-block; animation: ticker 25s linear infinite; font-weight: bold; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
         /* --- Navigation --- */
         nav { background: rgba(0,0,0,0.9); padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #111; }
         .theme-toggle { background: var(--glass); border: 1px solid var(--accent); color: var(--accent); padding: 8px 15px; cursor: pointer; border-radius: 5px; font-size: 0.75rem; }
 
-        /* --- News Ticker --- */
-        .news-ticker { background: var(--primary-red); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; position: relative; }
-        .ticker-content { display: inline-block; animation: ticker 20s linear infinite; font-weight: bold; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
         /* --- Hero Section --- */
         .hero { height: 95vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(7,7,7,1)), url('akd.jpg'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .timer-box { display: inline-flex; gap: 40px; margin-top: 40px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .timer-box { display: inline-flex; gap: 40px; margin: 40px 0; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .time-unit { font-size: 2.5rem; font-weight: bold; color: var(--accent); }
 
-        /* --- Content Sections --- */
+        /* --- Pledge Button --- */
+        .pledge-btn { 
+            background: none; border: 2px solid var(--accent); color: var(--accent); 
+            padding: 15px 40px; font-size: 1.2rem; cursor: pointer; border-radius: 50px; 
+            transition: 0.3s; font-weight: bold; margin-top: 20px;
+        }
+        .pledge-btn:hover { background: var(--accent); color: black; box-shadow: 0 0 20px var(--accent); }
+
+        /* --- Sections --- */
         .section { padding: 80px 8%; max-width: 1400px; margin: auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .card h3 { color: var(--primary-red); margin-top: 0; }
+        .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
 
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-top: 30px; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* --- Gmail Feedback Form --- */
+        /* --- Feedback Form Style --- */
         .feedback-form-container { background: rgba(255, 255, 255, 0.02); padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); max-width: 800px; margin: 50px auto; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; color: #ccc; margin-bottom: 8px; font-size: 0.9rem; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
-        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; font-size: 1rem; transition: 0.3s; }
-        .submit-btn:hover { background: #b30000; transform: scale(1.02); }
+        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
     </style>
 </head>
 <body onload="initApp()">
@@ -86,7 +92,6 @@
     <div style="font-weight: bold; font-size: 1.2rem;">ANURA <span style="color:var(--primary-red)">2029</span></div>
     <div style="display: flex; gap: 20px; align-items: center;">
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">Switch to Gold</button>
-        <a href="#policies" style="color:inherit; text-decoration:none; font-size: 0.8rem;">ප්‍රතිපත්ති</a>
         <a href="#feedback" style="color:inherit; text-decoration:none; font-size: 0.8rem;">FEEDBACK</a>
     </div>
 </nav>
@@ -99,26 +104,22 @@
             <div><span class="time-unit" id="hours">00</span><br><small>පැය</small></div>
             <div><span class="time-unit" id="mins">00</span><br><small>විනාඩි</small></div>
         </div>
+        <br>
+        <button class="pledge-btn" onclick="makePledge()">රට වෙනුවෙන් මම පොරොන්දු වෙමි</button>
     </div>
 </section>
 
-<div id="policies" class="section">
-    <h2 style="text-align: center; color: var(--accent); margin-bottom: 40px;">ජාතික ප්‍රතිපත්ති මාලාව</h2>
+<div class="section">
     <div class="grid">
         <div class="card">
-            <h3>ඩිජිටල් පරිවර්තනය</h3>
-            <p>IT ක්ෂේත්‍රය දියුණු කර රාජ්‍ය සේවය කාර්යක්ෂම කිරීම සහ තරුණ පරපුරට ලෝකය දිනන්න අවස්ථාව ලබා දීම.</p>
+            <h3 style="color:var(--primary-red)">ඩිජිටල් පරිවර්තනය</h3>
+            <p>IT ක්ෂේත්‍රය දියුණු කර රාජ්‍ය සේවය කාර්යක්ෂම කිරීම සහ දූෂණය පිටුදැකීම.</p>
         </div>
         <div class="card">
-            <h3>සාධාරණ නීතිය</h3>
-            <p>දූෂණයෙන් සහ වංචාවෙන් තොර, සැමට සමාන නීතියක් සහිත යහපත් පාලන ක්‍රමයක් ස්ථාපිත කිරීම.</p>
-        </div>
-        <div class="card">
-            <h3>අධ්‍යාපන නවීකරණය</h3>
-            <p>පාසල් සහ විශ්වවිද්‍යාල පද්ධතිය නවීන තාක්ෂණයට සහ ගෝලීය රැකියා වෙළඳපොළට ගැළපෙන සේ සැකසීම.</p>
+            <h3 style="color:var(--primary-red)">සාධාරණ නීතිය</h3>
+            <p>සැමට සමාන නීතියක් සහ සාධාරණත්වයක් සහිත රටක් ගොඩනැගීම.</p>
         </div>
     </div>
-
     <div class="video-container">
         <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
     </div>
@@ -126,47 +127,34 @@
 
 <div id="feedback" class="section">
     <div class="feedback-form-container">
-        <h2 style="text-align: center; color: var(--accent); margin-bottom: 10px;">විවේචන සහ අදහස් (Feedback)</h2>
-        <p style="text-align: center; color: #aaa; margin-bottom: 30px; font-size: 0.9rem;">ඔබේ අදහස් සෘජුවම අපගේ විද්‍යුත් තැපෑලට යොමු කෙරේ.</p>
-        
+        <h2 style="text-align: center; color: var(--accent);">Feedback Form</h2>
         <form action="https://formspree.io/f/xnjwnyjg" method="POST">
             <div class="form-group">
-                <label>1. ඔබ NPP/අනුර කුමාර මහතාට අකමැති වීමට හෝ විවේචනය කිරීමට ප්‍රධාන හේතුව:</label>
-                <textarea name="rejection_reason" required placeholder="ඔබේ අදහස මෙතන ලියන්න..."></textarea>
+                <label>NPP එකට අකමැති වීමට හෝ විවේචනය කිරීමට හේතුව:</label>
+                <textarea name="rejection_reason" required></textarea>
             </div>
-
             <div class="form-group">
-                <label>2. පසුගිය ආණ්ඩු මගින් සිදු කරන ලද ඔබ වඩාත්ම අගය කරන වැඩ මොනවාද?</label>
-                <textarea name="past_gov_appreciation" placeholder="පෙර ආණ්ඩු වල හොඳ වැඩ මෙතන ලියන්න..."></textarea>
+                <label>අනිත් ආණ්ඩු වලින් කළ හොඳම දේ කුමක්ද?</label>
+                <textarea name="other_gov_merits"></textarea>
             </div>
-
             <div class="form-group">
-                <label>3. ඔබ සිතන පරිදි NPP එක විසින් මීට වඩා අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
-                <select name="priority_area">
-                    <option value="economy">ආර්ථිකය</option>
+                <label>අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
+                <select name="target_area">
                     <option value="it">IT/තාක්ෂණය</option>
+                    <option value="economy">ආර්ථිකය</option>
                     <option value="education">අධ්‍යාපනය</option>
-                    <option value="law">නීතිය</option>
-                    <option value="other">වෙනත්</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>නම (Optional):</label>
                 <input type="text" name="name">
             </div>
-
-            <div class="form-group">
-                <label>දිස්ත්‍රික්කය:</label>
-                <input type="text" name="district">
-            </div>
-
             <button type="submit" class="submit-btn">අදහස ඉදිරිපත් කරන්න</button>
         </form>
     </div>
 </div>
 
-<footer style="text-align: center; padding: 50px; color: #444; font-size: 0.7rem;">
+<footer style="text-align: center; padding: 40px; color: #444; font-size: 0.7rem;">
     <p>&copy; 2026 Developed by Sahiru | Target: MORA IT</p>
 </footer>
 
@@ -174,6 +162,11 @@
     function openSite() {
         document.getElementById('welcome-screen').classList.add('opened');
         setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
+    }
+
+    function makePledge() {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff0000', '#ffd700', '#ffffff'] });
+        alert("ඔබේ පොරොන්දුව සාර්ථකව සටහන් විය! රට වෙනුවෙන් පෙළ ගැසෙමු.");
     }
 
     function toggleTheme() {
