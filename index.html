@@ -31,7 +31,7 @@
         /* --- Policy Cards --- */
         .section { padding: 80px 5%; max-width: 1200px; margin: auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: var(--glass); padding: 40px; border-radius: 20px; transition: 0.4s; border: 1px solid #222; }
+        .card { background: var(--glass); padding: 30px; border-radius: 20px; transition: 0.4s; border: 1px solid #222; }
         .card:hover { transform: translateY(-10px); border-color: var(--jvp-red); background: rgba(230, 0, 0, 0.05); }
 
         /* --- Video Section --- */
@@ -41,7 +41,7 @@
         @keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
     </style>
 </head>
-<body>
+<body onload="initPage()">
 
 <div id="welcome-screen" onclick="openSite()">
     <div class="curtain left-curtain"></div>
@@ -54,6 +54,7 @@
     <div style="display: flex; gap: 20px;">
         <a href="#policies" style="color:white; text-decoration:none; font-weight:bold;">ප්‍රතිපත්ති</a>
         <a href="#video" style="color:white; text-decoration:none; font-weight:bold;">දැක්ම</a>
+        <a href="#news" style="color:white; text-decoration:none; font-weight:bold;">පුවත්</a>
     </div>
 </nav>
 
@@ -91,8 +92,14 @@
 <div id="video" class="section" style="background: #050505;">
     <h2 style="text-align: center; margin-bottom: 40px; font-size: 2rem;">අනුර කුමාර මහතාගේ දේශනය</h2>
     <div class="video-container">
-        <!-- සහිරු එවපු අලුත්ම වීඩියෝ ලින්ක් එක මෙතන තියෙන්නේ -->
         <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+</div>
+
+<div id="news" class="section">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 40px; color: var(--gold);">නවතම පුවත් (Live Updates)</h2>
+    <div id="rss-feed-container" class="grid">
+        <p style="text-align: center; width: 100%;">පුවත් පූරණය වෙමින් පවතී...</p>
     </div>
 </div>
 
@@ -106,15 +113,43 @@
         setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
     }
 
-    // Countdown Logic (Target: 2029 September)
+    async function loadRSS() {
+        const RSS_URL = `https://api.rss2json.com/v1/api.json?rss_url=http://sinhala.adaderana.lk/rss.php`;
+        try {
+            const response = await fetch(RSS_URL);
+            const data = await response.json();
+            const container = document.getElementById('rss-feed-container');
+            container.innerHTML = '';
+
+            data.items.slice(0, 3).forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h4 style="color:var(--jvp-red); font-size: 1.1rem; margin-top:0;">${item.title}</h4>
+                    <p style="font-size: 0.8rem; color: #999;">${new Date(item.pubDate).toLocaleDateString()}</p>
+                    <a href="${item.link}" target="_blank" style="color:var(--gold); text-decoration:none; font-weight:bold; font-size: 0.9rem;">වැඩිදුර කියවන්න →</a>
+                `;
+                container.appendChild(card);
+            });
+        } catch (error) {
+            document.getElementById('rss-feed-container').innerHTML = '<p>පුවත් පූරණය කිරීමේදී දෝෂයක් ඇති විය.</p>';
+        }
+    }
+
     const targetDate = new Date("September 21, 2029 00:00:00").getTime();
-    setInterval(() => {
+    function updateTimer() {
         const now = new Date().getTime();
         const diff = targetDate - now;
         document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
         document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    }, 1000);
+    }
+
+    function initPage() {
+        loadRSS();
+        updateTimer();
+        setInterval(updateTimer, 60000);
+    }
 </script>
 
 </body>
