@@ -114,25 +114,32 @@
     }
 
     async function loadRSS() {
+        // ආරක්ෂිතව දත්ත ලබා ගැනීමට RSS2JSON API එක පාවිච්චි කරනවා
         const RSS_URL = `https://api.rss2json.com/v1/api.json?rss_url=http://sinhala.adaderana.lk/rss.php`;
+        
         try {
             const response = await fetch(RSS_URL);
             const data = await response.json();
             const container = document.getElementById('rss-feed-container');
-            container.innerHTML = '';
-
-            data.items.slice(0, 3).forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <h4 style="color:var(--jvp-red); font-size: 1.1rem; margin-top:0;">${item.title}</h4>
-                    <p style="font-size: 0.8rem; color: #999;">${new Date(item.pubDate).toLocaleDateString()}</p>
-                    <a href="${item.link}" target="_blank" style="color:var(--gold); text-decoration:none; font-weight:bold; font-size: 0.9rem;">වැඩිදුර කියවන්න →</a>
-                `;
-                container.appendChild(card);
-            });
+            
+            if (data.status === 'ok') {
+                container.innerHTML = '';
+                data.items.slice(0, 3).forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <h4 style="color:var(--jvp-red); font-size: 1.1rem; margin-top:0;">${item.title}</h4>
+                        <p style="font-size: 0.8rem; color: #999;">${new Date(item.pubDate).toLocaleDateString()}</p>
+                        <a href="${item.link}" target="_blank" style="color:var(--gold); text-decoration:none; font-weight:bold; font-size: 0.9rem;">වැඩිදුර කියවන්න →</a>
+                    `;
+                    container.appendChild(card);
+                });
+            } else {
+                throw new Error('RSS status not ok');
+            }
         } catch (error) {
-            document.getElementById('rss-feed-container').innerHTML = '<p>පුවත් පූරණය කිරීමේදී දෝෂයක් ඇති විය.</p>';
+            console.error("RSS Error:", error);
+            document.getElementById('rss-feed-container').innerHTML = '<p style="text-align:center; width:100%;">පුවත් පූරණය කිරීමේදී දෝෂයක් ඇති විය. කරුණාකර පසුව උත්සාහ කරන්න.</p>';
         }
     }
 
