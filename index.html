@@ -3,133 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anura 2029 | NPP Official</title>
+    <title>NPP Official | Anura 2029</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --primary-red: #e60000; --accent: #ffd700; --bg: #070707; --text: white; --glass: rgba(255, 255, 255, 0.05); }
-        body.gold-theme { --bg: #1a1a00; --text: #ffd700; --accent: #ffffff; --glass: rgba(255, 215, 0, 0.08); }
+        :root { 
+            --primary-red: #e60000; 
+            --accent: #ffd700; 
+            --bg: #070707; 
+            --text: white; 
+            --glass: rgba(255, 255, 255, 0.05); 
+        }
+        
         * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; transition: 0.5s; }
+        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
         /* --- Welcome Screen --- */
         #welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; cursor: pointer; background: #000; }
-        .curtain { width: 50%; height: 100%; transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1); background: linear-gradient(45deg, #400000, #800000); display: flex; align-items: center; position: relative; }
-        .left-curtain { justify-content: flex-end; border-right: 1px solid rgba(255, 215, 0, 0.1); }
-        .right-curtain { justify-content: flex-start; }
+        .curtain { width: 50%; height: 100%; transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1); background: linear-gradient(45deg, #400000, #800000); position: relative; }
+        .left-curtain { border-right: 1px solid rgba(255, 215, 0, 0.1); }
         .opened .left-curtain { transform: translateX(-100%); }
         .opened .right-curtain { transform: translateX(100%); }
         .logo-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 10001; transition: opacity 0.5s; text-align: center; }
         .opened .logo-center { opacity: 0; pointer-events: none; }
-        .welcome-img { width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--accent); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); object-fit: cover; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .welcome-img { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
 
-        /* --- UI Elements --- */
-        .news-ticker { background: var(--primary-red); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
-        .ticker-content { display: inline-block; animation: ticker 25s linear infinite; font-weight: bold; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        nav { background: rgba(0,0,0,0.9); padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #111; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-size: 0.8rem; }
-        .hero { height: 95vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(7,7,7,1)), url('akd.jpg'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .counter-number { font-size: 3rem; display: block; color: var(--accent); }
-        .timer-box { display: inline-flex; gap: 30px; margin: 20px 0; padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .time-unit { font-size: 2rem; font-weight: bold; color: var(--accent); }
+        /* --- Global UI --- */
+        nav { background: rgba(0,0,0,0.9); padding: 15px 8%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+        .hero { height: 90vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(7,7,7,1)), url('akd.jpg'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
         .section { padding: 60px 8%; max-width: 1200px; margin: auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; margin-top: 20px; }
+        .card { background: var(--glass); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); }
+
+        /* --- Components --- */
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; margin: 30px 0; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .feedback-form-container { background: var(--glass); padding: 40px; border-radius: 20px; max-width: 700px; margin: 40px auto; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; color: #ccc; margin-bottom: 8px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid #333; color: white; border-radius: 8px; }
-        .submit-btn { background: var(--primary-red); color: white; border: none; padding: 15px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; }
+        .feedback-form { background: var(--glass); padding: 30px; border-radius: 20px; max-width: 600px; margin: auto; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #ccc; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; background: #111; border: 1px solid #333; color: white; border-radius: 5px; }
+
+        /* --- AI Chatbot --- */
+        #ai-chat-icon { position: fixed; bottom: 20px; right: 20px; background: var(--primary-red); color: white; width: 55px; height: 55px; border-radius: 50%; text-align: center; line-height: 55px; font-size: 24px; cursor: pointer; z-index: 2000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        #ai-chat-window { position: fixed; bottom: 85px; right: 20px; width: 300px; background: #fff; border-radius: 15px; display: none; z-index: 2000; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; }
+        #chat-header { background: var(--primary-red); color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; }
+        #chat-content { height: 250px; overflow-y: auto; padding: 15px; font-size: 0.85rem; background: #f9f9f9; }
+        .chat-input-area { display: flex; padding: 10px; background: #eee; }
+        .chat-input-area input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
     </style>
 </head>
-<body onload="initApp()">
+<body onload="updateTimer()">
 
+<!-- 1. Welcome Screen -->
 <div id="welcome-screen" onclick="openSite()">
     <div class="logo-center">
-        <img src="npp1.jpg" class="welcome-img" alt="NPP Logo">
-        <h2 style="color:white; margin-top: 15px; letter-spacing: 5px;">NPP 2029</h2>
+        <img src="npp1.jpg" class="welcome-img" alt="Logo">
+        <h2 style="color:white; margin-top: 15px;">NPP 2029</h2>
+        <p style="color:var(--accent);">පිවිසීමට ක්ලික් කරන්න</p>
     </div>
     <div class="curtain left-curtain"></div>
     <div class="curtain right-curtain"></div>
 </div>
 
-<div class="news-ticker"><div class="ticker-content">🔴 දූෂණ විරෝධී පනතක්... | 🔴 අධ්‍යාපනය නවීකරණය... | 🔴 තරුණ ව්‍යවසායකයින්...</div></div>
-
 <nav>
-    <div style="font-weight: bold; font-size: 1.2rem;">ANURA <span style="color:var(--primary-red)">2029</span></div>
-    <div class="nav-links">
-        <button onclick="toggleTheme()" style="background:none; border:1px solid var(--accent); color:var(--accent); cursor:pointer; padding:5px 10px; border-radius:5px;">Theme</button>
-        <a href="#feedback">FEEDBACK</a>
-    </div>
+    <div style="font-weight: bold; font-size: 1.4rem;">NPP <span style="color:var(--primary-red)">SRI LANKA</span></div>
+    <div><a href="#feedback" style="color:white; text-decoration:none; font-size:0.9rem;">සම්බන්ධ වන්න</a></div>
 </nav>
 
+<!-- 2. Hero Section -->
 <section class="hero">
     <div>
-        <h1 style="font-size: 3rem;">අනුර කුමාර දිසානායක</h1>
-        <div class="counter-container">
-            <span class="counter-number" id="pledgeCount">0</span>
-            <span style="font-size: 0.9rem;">පොරොන්දු වූ සංඛ්‍යාව</span>
+        <h1 style="font-size: 2.5rem; margin-bottom:10px;">අනුර කුමාර දිසානායක</h1>
+        <p>පොහොසත් රටක් - ලස්සන ජීවිතයක්</p>
+        <div style="margin: 20px 0;">
+            <span id="days" style="font-size: 2rem; color: var(--accent); font-weight: bold;">00</span> දින 
+            <span id="hours" style="font-size: 2rem; color: var(--accent); font-weight: bold;">00</span> පැය
         </div>
-        <div class="timer-box">
-            <div><span class="time-unit" id="days">00</span><br><small>දින</small></div>
-            <div><span class="time-unit" id="hours">00</span><br><small>පැය</small></div>
-            <div><span class="time-unit" id="mins">00</span><br><small>විනාඩි</small></div>
-        </div>
-        <br><button onclick="makePledge()" style="background:var(--primary-red); border:none; color:white; padding:15px 30px; border-radius:50px; cursor:pointer; font-weight:bold;">මම පොරොන්දු වෙමි</button>
+        <button onclick="makePledge()" style="background:var(--primary-red); color:white; border:none; padding:15px 30px; border-radius:50px; cursor:pointer; font-weight:bold;">මම පොරොන්දු වෙමි</button>
     </div>
 </section>
 
+<!-- 3. Policies & Achievements -->
 <div class="section">
-    <h2 style="text-align: center; color: var(--accent);">අපේ ප්‍රධාන දැක්ම</h2>
+    <h2 style="text-align: center; color: var(--accent);">අපේ දැක්ම සහ ජයග්‍රහණ</h2>
     <div class="grid">
-        <div class="card"><h3>නිදහස් අධ්‍යාපනය</h3><p>අනාගත පරපුර තාක්ෂණයෙන් සන්නද්ධ කිරීම.</p></div>
-        <div class="card"><h3>ගුණාත්මක සෞඛ්‍යය</h3><p>සැමට නොමිලේ උසස් සෞඛ්‍ය සේවාවක්.</p></div>
-        <div class="card"><h3>දේශීය කෘෂිකර්මය</h3><p>ගොවියා ශක්තිමත් කරමින් රට ස්වයංපෝෂිත කිරීම.</p></div>
+        <div class="card">
+            <h3 style="color:var(--primary-red);">නිදහස් අධ්‍යාපනය</h3>
+            <p>තාක්ෂණයෙන් සන්නද්ධ අනාගත පරපුරක් උදෙසා අධ්‍යාපන පද්ධතිය නවීකරණය කිරීම.</p>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--primary-red);">දූෂණ විරෝධය</h3>
+            <p>මහජන මුදල් අවභාවිතය නතර කර නීතිය සැමට සමානව ක්‍රියාත්මක කිරීම.</p>
+        </div>
+        <div class="card" style="background: rgba(255,215,0,0.1);">
+            <h3 style="color:var(--accent);">මිල සහන (2024)</h3>
+            <p>ඉන්ධන, ගෑස් සහ අත්‍යවශ්‍ය භාණ්ඩ මිල අඩු කර ජනතාවට සහන සැලසීම.</p>
+        </div>
     </div>
-    <div class="video-container"><iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe></div>
 </div>
 
+<!-- 4. Video Section -->
+<div class="section" style="text-align: center;">
+    <h2>විශේෂ දේශනය</h2>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
+
+<!-- 5. Feedback Form -->
 <div id="feedback" class="section">
-    <div class="feedback-form-container">
-        <h2 style="text-align: center; color: var(--accent);">අදහස් සහ සම්බන්ධතා</h2>
+    <div class="feedback-form">
+        <h2 style="text-align: center; color: var(--accent);">ඔබේ අදහස් අපට වැදගත්</h2>
         <form action="https://formspree.io/f/xnjwnyjg" method="POST">
-            <div class="form-group"><label>NPP එකට අකමැති වීමට හේතුව:</label><textarea name="rejection_reason" required></textarea></div>
-            <div class="form-group"><label>අනිත් ආණ්ඩු වලින් කළ හොඳම දේ:</label><textarea name="other_gov_merit"></textarea></div>
-            <div class="form-group"><label>අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
-                <select name="target_area"><option value="it">IT / තාක්ෂණය</option><option value="economy">ආර්ථිකය</option><option value="education">අධ්‍යාපනය</option></select>
+            <div class="form-group">
+                <label>NPP එකට අකමැති වීමට හේතුව:</label>
+                <textarea name="reason" required></textarea>
             </div>
-            <div class="form-group"><label>ඔබේ නම (Optional):</label><input type="text" name="name"></div>
-            <button type="submit" class="submit-btn">ඉදිරිපත් කරන්න</button>
+            <div class="form-group">
+                <label>වැඩිපුර අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
+                <select name="field">
+                    <option value="it">IT / තාක්ෂණය</option>
+                    <option value="economy">ආර්ථිකය</option>
+                    <option value="education">අධ්‍යාපනය</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>ඔබේ නම:</label>
+                <input type="text" name="name">
+            </div>
+            <button type="submit" style="background:var(--primary-red); color:white; border:none; padding:12px; width:100%; border-radius:5px; cursor:pointer;">ඉදිරිපත් කරන්න</button>
         </form>
     </div>
 </div>
 
-<footer style="text-align: center; padding: 20px; color: #555;">&copy; 2026 Developed by Sahiru | Target: MORA IT</footer>
+<!-- 6. AI Chatbot UI -->
+<div id="ai-chat-icon" onclick="toggleChat()">🤖</div>
+<div id="ai-chat-window">
+    <div id="chat-header">
+        <span>NPP Smart Assistant</span>
+        <span onclick="toggleChat()" style="cursor:pointer;">×</span>
+    </div>
+    <div id="chat-content">
+        <p>ආයුබෝවන් සහිරු! NPP ප්‍රතිපත්ති ගැන ඕනෑම දෙයක් අහන්න.</p>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="user-msg" placeholder="Type here...">
+        <button onclick="askAI()" style="margin-left:5px; background:var(--primary-red); color:white; border:none; padding:5px 10px; border-radius:3px;">Go</button>
+    </div>
+</div>
+
+<footer style="text-align: center; padding: 30px; color: #666; font-size: 0.8rem;">
+    &copy; 2026 Developed by Sahiru | Target: MORA IT
+</footer>
 
 <script>
-    function openSite() { document.getElementById('welcome-screen').classList.add('opened'); setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; animateCounter(); }, 1200); }
-    function animateCounter() {
-        let count = 14000;
-        const interval = setInterval(() => {
-            count += Math.floor(Math.random() * 50) + 10;
-            if (count >= 15240) { document.getElementById('pledgeCount').innerText = "15,240"; clearInterval(interval); }
-            else document.getElementById('pledgeCount').innerText = count.toLocaleString();
-        }, 30);
+    function openSite() { 
+        document.getElementById('welcome-screen').classList.add('opened'); 
+        setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
     }
-    function makePledge() { confetti({ particleCount: 150, spread: 70 }); alert("ඔබේ පොරොන්දුව සටහන් විය!"); }
-    function toggleTheme() { document.body.classList.toggle('gold-theme'); }
+
     function updateTimer() {
-        const diff = new Date("September 21, 2029").getTime() - new Date().getTime();
-        document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-        document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-        document.getElementById('mins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        const target = new Date("September 21, 2029").getTime();
+        const now = new Date().getTime();
+        const diff = target - now;
+        document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     }
-    function initApp() { updateTimer(); setInterval(updateTimer, 60000); }
+
+    function makePledge() {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        alert("ඔබේ පොරොන්දුව සාර්ථකව සටහන් විය!");
+    }
+
+    function toggleChat() {
+        let win = document.getElementById('ai-chat-window');
+        win.style.display = (win.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function askAI() {
+        let msg = document.getElementById('user-msg').value.toLowerCase();
+        let chat = document.getElementById('chat-content');
+        let reply = "කණගාටුයි, ඒ ගැන මට තවම දැනුමක් නැහැ.";
+
+        if(msg.includes("අධ්‍යාපනය")) reply = "නිදහස් අධ්‍යාපනය සුරක්ෂිත කර තාක්ෂණික විෂයන් දියුණු කිරීමට NPP කැපවී සිටී.";
+        else if(msg.includes("මිල")) reply = "බදු කළමනාකරණය හරහා අත්‍යවශ්‍ය භාණ්ඩ හා ඉන්ධන මිල සහන ලබා දීම දැනටමත් ආරම්භ කර ඇත.";
+        else if(msg.includes("දූෂණය")) reply = "දූෂණයට එරෙහිව නීතිය තදින්ම ක්‍රියාත්මක කිරීම රජයේ ප්‍රධාන අරමුණයි.";
+
+        chat.innerHTML += `<p><b>ඔබ:</b> ${msg}</p><p><b>AI:</b> ${reply}</p>`;
+        document.getElementById('user-msg').value = "";
+        chat.scrollTop = chat.scrollHeight;
+    }
+    setInterval(updateTimer, 3600000);
 </script>
+
 </body>
 </html>
