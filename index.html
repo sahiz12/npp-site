@@ -10,7 +10,7 @@
         * { box-sizing: border-box; scroll-behavior: smooth; }
         body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
 
-        /* --- Minimalist Premium Welcome Screen --- */
+        /* --- Welcome Screen --- */
         #welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; cursor: pointer; background: #000; }
         .curtain { 
             width: 50%; height: 100%; transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1); 
@@ -22,30 +22,35 @@
         .opened .left-curtain { transform: translateX(-100%); }
         .opened .right-curtain { transform: translateX(100%); }
         
-        /* Gold Logo in Center */
         .logo-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 10001; transition: opacity 0.5s; text-align: center; }
         .logo-text { font-size: 3rem; font-weight: bold; color: var(--gold); letter-spacing: 10px; margin: 0; text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
         .opened .logo-center { opacity: 0; pointer-events: none; }
+        .click-hint { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); color: var(--gold); letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase; border: 1px solid rgba(255, 215, 0, 0.3); padding: 8px 20px; animation: pulse 2s infinite; }
 
-        .click-hint { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); color: var(--gold); letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase; border: 1px solid rgba(255, 215, 0, 0.3); padding: 8px 20px; transition: 0.3s; }
-
-        /* --- Main UI --- */
+        /* --- Header & Hero --- */
         nav { background: rgba(0,0,0,0.9); padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #111; }
-        .hero { height: 95vh; background: radial-gradient(circle at center, #220000 0%, #070707 100%); display: flex; align-items: center; justify-content: center; text-align: center; }
         
-        .timer-box { display: inline-flex; gap: 40px; margin-top: 40px; padding: 20px; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+        .hero { 
+            height: 95vh; 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(7,7,7,1)), url('akd.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            display: flex; align-items: center; justify-content: center; text-align: center; 
+        }
+        
+        .timer-box { display: inline-flex; gap: 40px; margin-top: 40px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .time-unit { font-size: 2.5rem; font-weight: bold; color: var(--gold); }
-        .time-label { display: block; font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        .time-label { display: block; font-size: 0.7rem; color: #aaa; text-transform: uppercase; }
 
+        /* --- Sections --- */
         .section { padding: 100px 8%; max-width: 1400px; margin: auto; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 5px; filter: grayscale(20%); transition: 0.5s; border: 1px solid #222; }
-        .video-container:hover { filter: grayscale(0%); border-color: var(--jvp-red); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; border: 1px solid #333; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        .news-frame { width: 100%; height: 600px; border: 1px solid #222; border-radius: 5px; filter: invert(90%) hue-rotate(180deg); }
+        /* --- News Widget (Adjusted for Dark Mode) --- */
+        .news-frame { width: 100%; height: 600px; border: 1px solid #222; border-radius: 10px; background: white; }
 
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
-        .click-hint { animation: pulse 2s infinite; }
     </style>
 </head>
 <body onload="setInterval(updateTimer, 60000); updateTimer();">
@@ -59,16 +64,16 @@
 
 <nav>
     <div style="font-weight: bold; font-size: 1.2rem; letter-spacing: 2px;">ANURA <span style="color:var(--jvp-red)">2029</span></div>
-    <div style="display: flex; gap: 30px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
-        <a href="#video" style="color:#888; text-decoration:none; transition: 0.3s;">Vision</a>
-        <a href="#news" style="color:#888; text-decoration:none; transition: 0.3s;">Updates</a>
+    <div style="display: flex; gap: 30px; font-size: 0.8rem; text-transform: uppercase;">
+        <a href="#video" style="color:#888; text-decoration:none;">Vision</a>
+        <a href="#news" style="color:#888; text-decoration:none;">Updates</a>
     </div>
 </nav>
 
 <section class="hero">
-    <div>
-        <p style="color: var(--jvp-red); letter-spacing: 5px; font-size: 0.9rem; text-transform: uppercase;">The Future of Sri Lanka</p>
-        <h1 style="font-size: 4rem; margin: 15px 0; font-weight: 700;">අනුර කුමාර දිසානායක</h1>
+    <div style="background: rgba(0,0,0,0.3); padding: 40px; border-radius: 20px; backdrop-filter: blur(2px);">
+        <p style="color: var(--jvp-red); letter-spacing: 5px; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">The Future of Sri Lanka</p>
+        <h1 style="font-size: 4rem; margin: 15px 0; font-weight: 700; text-shadow: 2px 2px 10px rgba(0,0,0,0.9);">අනුර කුමාර දිසානායක</h1>
         
         <div class="timer-box">
             <div><span class="time-unit" id="days">00</span><span class="time-label">Days</span></div>
@@ -87,12 +92,13 @@
 </div>
 
 <div id="news" class="section" style="border-top: 1px solid #111;">
-    <h2 style="text-align: center; font-size: 1.8rem; margin-bottom: 50px; letter-spacing: 1px;">සජීවී පුවත් යාවත්කාලීන</h2>
+    <h2 style="text-align: center; font-size: 1.8rem; margin-bottom: 50px;">සජීවී පුවත් යාවත්කාලීන</h2>
+    <!-- Bing News for better integration -->
     <iframe class="news-frame" src="https://www.bing.com/news/search?q=Anura+Kumara+Dissanayake&qft=sortbydate%3d%221%22&form=NWRFSH" frameborder="0"></iframe>
 </div>
 
-<footer style="text-align: center; padding: 80px 5%; color: #333; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;">
-    <p>&copy; 2026 Developed by Sahiru for NPP Digital</p>
+<footer style="text-align: center; padding: 80px 5%; color: #444; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;">
+    <p>&copy; 2026 Developed by Sahiru | Target: MORA IT</p>
 </footer>
 
 <script>
