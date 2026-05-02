@@ -3,139 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPP | Interactive Hub</title>
+    <title>Anura 2029 | රට හදන දැක්ම</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --jvp-red: #ff3e3e; --dark: #0f0f0f; }
-        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
+        :root { --jvp-red: #e60000; --dark-bg: #0a0a0a; --card-bg: #161616; }
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--dark-bg); color: white; }
 
-        /* --- Welcome Screen --- */
+        /* --- Curtain Animation --- */
         #welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            display: flex;
-            cursor: pointer;
-            background: #000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999; display: flex; cursor: pointer; background: #000;
         }
-
         .curtain {
-            width: 50%;
-            height: 100%;
-            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
-            position: relative;
-            background-color: #800000; /* පින්තූරය නැති වුණොත් පේන පාට */
-            background-repeat: no-repeat;
-            background-size: 200% 100%;
+            width: 50%; height: 100%; transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+            background-image: url('npp.jpg'); background-size: 200% 100%; background-repeat: no-repeat;
+            background-color: #800000;
         }
-
-        .left-curtain {
-            background-image: url('npp.jpg');
-            background-position: left center;
-        }
-
-        .right-curtain {
-            background-image: url('npp.jpg');
-            background-position: right center;
-        }
-
-        .click-hint {
-            position: absolute;
-            bottom: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--jvp-red);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            z-index: 10001;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: translateX(-50%) scale(1); opacity: 1; }
-            50% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
-            100% { transform: translateX(-50%) scale(1); opacity: 1; }
-        }
-
+        .left-curtain { background-position: left center; }
+        .right-curtain { background-position: right center; }
         .opened .left-curtain { transform: translateX(-100%); }
         .opened .right-curtain { transform: translateX(100%); }
-        .opened .click-hint { display: none; }
-
-        /* --- Main UI --- */
-        .nav { padding: 20px; text-align: center; border-bottom: 2px solid var(--jvp-red); background: #111; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
-        .card { background: #1a1a1a; border-radius: 20px; padding: 25px; text-align: center; border: 1px solid #333; transition: 0.3s; }
-        .card img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--jvp-red); object-fit: cover; }
         
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: #111; padding: 40px; border-radius: 30px; border: 1px solid var(--jvp-red); max-width: 450px; width: 90%; text-align: center; }
-        .btn { background: var(--jvp-red); color: white; border: none; padding: 12px 35px; border-radius: 50px; cursor: pointer; margin-top: 25px; font-weight: bold; }
+        .click-hint {
+            position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
+            background: var(--jvp-red); color: white; padding: 12px 30px; border-radius: 50px;
+            font-weight: bold; z-index: 10000; animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } }
+
+        /* --- Header --- */
+        header {
+            height: 70vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('akd.jpg');
+            background-size: cover; background-position: center; text-align: center;
+        }
+
+        /* --- Policy Cards --- */
+        .container { padding: 50px 5%; max-width: 1200px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: var(--card-bg); padding: 30px; border-radius: 20px; border-left: 5px solid var(--jvp-red); }
+        .card h3 { color: var(--jvp-red); margin-top: 0; }
+
+        /* --- Join Form --- */
+        .join-box { background: #111; padding: 50px; border-radius: 30px; margin-top: 50px; text-align: center; border: 1px solid #333; }
+        input { width: 100%; max-width: 400px; padding: 15px; margin: 10px 0; border-radius: 10px; border: 1px solid #333; background: #222; color: white; }
+        .btn { background: var(--jvp-red); color: white; padding: 15px 40px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="welcome-screen" onclick="openSite()">
     <div class="curtain left-curtain"></div>
-    <div class="click-hint">ඇතුළු වීමට ක්ලික් කරන්න</div>
+    <div class="click-hint">2029 පුනරුදයේ ඇරඹුම</div>
     <div class="curtain right-curtain"></div>
 </div>
 
-<div class="nav"><h2>NPP INTERACTIVE HUB</h2></div>
+<header>
+    <div>
+        <h1 style="font-size: 3rem; margin: 0;">අනුර කුමාර දිසානායක</h1>
+        <p style="font-size: 1.5rem;">පොහොසත් රටක් - ලස්සන ජීවිතයක්</p>
+    </div>
+</header>
 
-<div class="grid">
-    <div class="card" onclick="show('akd')">
-        <img src="akd.jpg" alt="AKD">
-        <h3>අනුර කුමාර දිසානායක</h3>
-        <p>ජාතික ජන බලවේගයේ නායක</p>
+<div class="container">
+    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;">අපේ ප්‍රතිපත්ති</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>ඩිජිටල් ශ්‍රී ලංකාව</h3>
+            <p>තොරතුරු තාක්ෂණය හරහා රටේ ආර්ථිකය නව මාවතකට ගෙන යාම.</p>
+        </div>
+        <div class="card">
+            <h3>නීතියේ ආධිපත්‍යය</h3>
+            <p>දූෂණයෙන් සහ භීෂණයෙන් තොර සාධාරණ සමාජයක් ගොඩනැගීම.</p>
+        </div>
+        <div class="card">
+            <h3>තරුණ අනාගතය</h3>
+            <p>නව නිපැයුම්කරුවන්ට සහ ව්‍යවසායකයින්ට රුකුල් දෙන වැඩපිළිවෙළක්.</p>
+        </div>
     </div>
-    <div class="card" onclick="show('rw')">
-        <img src="rw.jpg" alt="RW">
-        <h3>රෝහණ විජේවීර</h3>
-        <p>ජ.වි.පෙ නිර්මාතෘ</p>
-    </div>
-    <div class="card" onclick="show('ts')">
-        <img src="Tilvin-Silva.jpg" alt="TS">
-        <h3>ටිල්වින් සිල්වා</h3>
-        <p>ප්‍රධාන ලේකම්</p>
-    </div>
-</div>
 
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <img id="m-img" src="" style="width:160px; height:160px; border-radius:50%; border:4px solid var(--jvp-red); object-fit: cover;">
-        <h2 id="m-name"></h2>
-        <p id="m-desc" style="line-height: 1.6; margin-top: 15px;"></p>
-        <button class="btn" onclick="hide()">වසා දමන්න</button>
+    <div class="join-box">
+        <h2>අප සමඟ එක්වන්න</h2>
+        <form onsubmit="alert('ස්තූතියි සහිරු! අපි 2029 ජයග්‍රහණය කරමු.'); return false;">
+            <input type="text" placeholder="ඔබේ නම" required><br>
+            <input type="tel" placeholder="දුරකථන අංකය" required><br>
+            <button type="submit" class="btn">ලියාපදිංචි වන්න</button>
+        </form>
     </div>
 </div>
 
 <script>
     function openSite() {
         document.getElementById('welcome-screen').classList.add('opened');
-        setTimeout(() => {
-            document.getElementById('welcome-screen').style.display = 'none';
-        }, 1200);
+        setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
     }
-
-    const data = {
-        'akd': { name: 'අනුර කුමාර දිසානායක', desc: 'ජාතික ජන බලවේගයේ නායක සහ ශ්‍රී ලංකාවේ වත්මන් දේශපාලන ක්‍රියාවලියේ ප්‍රධානතම නියමුවායි.', img: 'akd.jpg' },
-        'rw': { name: 'රෝහණ විජේවීර', desc: 'ජනතා විමුක්ති පෙරමුණේ නිර්මාතෘවරයා වන මොහු, මෙරට වාමාංශික දේශපාලනය වෙනස් කළ විශිෂ්ඨ නායකයෙකි.', img: 'rw.jpg' },
-        'ts': { name: 'ටිල්වින් සිල්වා', desc: 'ජනතා විමුක්ති පෙරමුණේ ප්‍රධාන ලේකම්වරයා ලෙස පක්ෂ යාන්ත්‍රණය ශක්තිමත් කිරීමට කැපවී ක්‍රියා කරන නායකයෙකි.', img: 'Tilvin-Silva.jpg' }
-    };
-
-    function show(id) {
-        document.getElementById('m-name').innerText = data[id].name;
-        document.getElementById('m-desc').innerText = data[id].desc;
-        document.getElementById('m-img').src = data[id].img;
-        document.getElementById('modal').style.display = 'flex';
-    }
-    function hide() { document.getElementById('modal').style.display = 'none'; }
 </script>
 
 </body>
