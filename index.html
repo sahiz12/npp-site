@@ -3,93 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anura 2029 | රට හදන දැක්ම</title>
+    <title>Anura 2029 | ජාතික මෙහෙවර</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --jvp-red: #e60000; --dark-bg: #0a0a0a; --card-bg: #161616; }
+        :root { --jvp-red: #e60000; --gold: #ffd700; --dark: #0a0a0a; --glass: rgba(255, 255, 255, 0.05); }
         * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--dark-bg); color: white; }
+        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
 
-        /* --- Curtain Animation --- */
-        #welcome-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 9999; display: flex; cursor: pointer; background: #000;
-        }
-        .curtain {
-            width: 50%; height: 100%; transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
-            background-image: url('npp.jpg'); background-size: 200% 100%; background-repeat: no-repeat;
-            background-color: #800000;
-        }
+        /* --- Welcome Animation --- */
+        #welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; cursor: pointer; background: #000; }
+        .curtain { width: 50%; height: 100%; transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1); background-image: url('npp.jpg'); background-size: 200% 100%; background-repeat: no-repeat; }
         .left-curtain { background-position: left center; }
         .right-curtain { background-position: right center; }
         .opened .left-curtain { transform: translateX(-100%); }
         .opened .right-curtain { transform: translateX(100%); }
-        
-        .click-hint {
-            position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
-            background: var(--jvp-red); color: white; padding: 12px 30px; border-radius: 50px;
-            font-weight: bold; z-index: 10000; animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } }
+        .click-hint { position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%); background: var(--jvp-red); color: white; padding: 12px 30px; border-radius: 50px; font-weight: bold; z-index: 10000; animation: pulse 1.5s infinite; }
 
-        /* --- Header --- */
-        header {
-            height: 70vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('akd.jpg');
-            background-size: cover; background-position: center; text-align: center;
-        }
+        /* --- Header & Nav --- */
+        nav { background: rgba(0,0,0,0.8); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 1px solid var(--jvp-red); }
+        .hero { height: 90vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('akd.jpg'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
+        
+        /* --- Countdown --- */
+        .timer-box { background: var(--glass); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,0,0,0.3); display: inline-flex; gap: 20px; margin-top: 30px; }
+        .time-unit { font-size: 2rem; font-weight: bold; color: var(--gold); }
+        .time-label { display: block; font-size: 0.8rem; color: #ccc; }
 
         /* --- Policy Cards --- */
-        .container { padding: 50px 5%; max-width: 1200px; margin: auto; }
+        .section { padding: 80px 5%; max-width: 1200px; margin: auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: var(--card-bg); padding: 30px; border-radius: 20px; border-left: 5px solid var(--jvp-red); }
-        .card h3 { color: var(--jvp-red); margin-top: 0; }
+        .card { background: var(--glass); padding: 40px; border-radius: 20px; transition: 0.4s; border: 1px solid #222; }
+        .card:hover { transform: translateY(-10px); border-color: var(--jvp-red); background: rgba(230, 0, 0, 0.05); }
 
-        /* --- Join Form --- */
-        .join-box { background: #111; padding: 50px; border-radius: 30px; margin-top: 50px; text-align: center; border: 1px solid #333; }
-        input { width: 100%; max-width: 400px; padding: 15px; margin: 10px 0; border-radius: 10px; border: 1px solid #333; background: #222; color: white; }
-        .btn { background: var(--jvp-red); color: white; padding: 15px 40px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        /* --- Video Section --- */
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 20px; border: 2px solid #333; margin: 40px 0; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        @keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.05); } }
     </style>
 </head>
 <body>
 
 <div id="welcome-screen" onclick="openSite()">
     <div class="curtain left-curtain"></div>
-    <div class="click-hint">2029 පුනරුදයේ ඇරඹුම</div>
+    <div class="click-hint">පුනරුදයේ ඇරඹුම</div>
     <div class="curtain right-curtain"></div>
 </div>
 
-<header>
-    <div>
-        <h1 style="font-size: 3rem; margin: 0;">අනුර කුමාර දිසානායක</h1>
-        <p style="font-size: 1.5rem;">පොහොසත් රටක් - ලස්සන ජීවිතයක්</p>
+<nav>
+    <div style="font-weight: bold; font-size: 1.5rem;">ANURA <span style="color:var(--jvp-red)">2029</span></div>
+    <div style="display: flex; gap: 20px;">
+        <a href="#policies" style="color:white; text-decoration:none;">ප්‍රතිපත්ති</a>
+        <a href="#video" style="color:white; text-decoration:none;">වීඩියෝ</a>
     </div>
-</header>
+</nav>
 
-<div class="container">
-    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;">අපේ ප්‍රතිපත්ති</h2>
+<section class="hero">
+    <div>
+        <h1 style="font-size: 3.5rem; margin-bottom: 10px;">අනුර කුමාර දිසානායක</h1>
+        <p style="font-size: 1.5rem; color: #ddd;">ශ්‍රී ලංකාවේ මීළඟ මහා පෙරළිය</p>
+        
+        <div class="timer-box">
+            <div><span class="time-unit" id="days">00</span><span class="time-label">දින</span></div>
+            <div><span class="time-unit" id="hours">00</span><span class="time-label">පැය</span></div>
+            <div><span class="time-unit" id="mins">00</span><span class="time-label">විනාඩි</span></div>
+        </div>
+    </div>
+</section>
+
+<div id="policies" class="section">
+    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">අපේ වැඩපිළිවෙළ</h2>
     <div class="grid">
         <div class="card">
-            <h3>ඩිජිටල් ශ්‍රී ලංකාව</h3>
-            <p>තොරතුරු තාක්ෂණය හරහා රටේ ආර්ථිකය නව මාවතකට ගෙන යාම.</p>
+            <h3 style="color:var(--jvp-red)">ඩිජිටල් විප්ලවය</h3>
+            <p>IT සහ තාක්ෂණික ක්ෂේත්‍රය හරහා ලෝකය දිනන තාරුණ්‍යයක් බිහි කිරීම.</p>
         </div>
         <div class="card">
-            <h3>නීතියේ ආධිපත්‍යය</h3>
-            <p>දූෂණයෙන් සහ භීෂණයෙන් තොර සාධාරණ සමාජයක් ගොඩනැගීම.</p>
+            <h3 style="color:var(--jvp-red)">සාධාරණ නීතිය</h3>
+            <p>හැමෝටම සමාන නීතියක් ක්‍රියාත්මක වන දූෂණයෙන් තොර පාලනයක්.</p>
         </div>
         <div class="card">
-            <h3>තරුණ අනාගතය</h3>
-            <p>නව නිපැයුම්කරුවන්ට සහ ව්‍යවසායකයින්ට රුකුල් දෙන වැඩපිළිවෙළක්.</p>
+            <h3 style="color:var(--jvp-red)">ග්‍රාමීය සංවර්ධනය</h3>
+            <p>කෘෂිකර්මාන්තය නවීකරණය කර ගොවි ජනතාවගේ ආර්ථිකය ශක්තිමත් කිරීම.</p>
         </div>
     </div>
+</div>
 
-    <div class="join-box">
-        <h2>අප සමඟ එක්වන්න</h2>
-        <form onsubmit="alert('ස්තූතියි සහිරු! අපි 2029 ජයග්‍රහණය කරමු.'); return false;">
-            <input type="text" placeholder="ඔබේ නම" required><br>
-            <input type="tel" placeholder="දුරකථන අංකය" required><br>
-            <button type="submit" class="btn">ලියාපදිංචි වන්න</button>
-        </form>
+<div id="video" class="section" style="background: #050505;">
+    <h2 style="text-align: center; margin-bottom: 40px;">නවතම දේශන</h2>
+    <div class="video-container">
+        <!-- මෙතනට YouTube link එකක් දාලා තියෙන්නේ -->
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
     </div>
 </div>
 
@@ -98,6 +101,16 @@
         document.getElementById('welcome-screen').classList.add('opened');
         setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
     }
+
+    // Countdown Logic (Target: 2029 September)
+    const targetDate = new Date("September 21, 2029 00:00:00").getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+        document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    }, 1000);
 </script>
 
 </body>
