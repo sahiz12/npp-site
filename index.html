@@ -3,215 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPP Official Digital Hub | Anura 2029</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>AKD 2029 | The Future of Sri Lanka</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         :root {
-            --primary: #d40000;
-            --dark-red: #8b0000;
-            --accent: #ffd700;
-            --bg: #0a0a0a;
-            --card-bg: #151515;
-            --text: #ffffff;
+            --primary: #ff1f1f;
+            --secondary: #ffcc00;
+            --dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; }
+        body { background-color: var(--dark); color: white; overflow-x: hidden; }
 
-        /* --- Custom Scrollbar --- */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-        /* --- Welcome Screen --- */
-        #welcome-screen { position: fixed; inset: 0; z-index: 10000; display: flex; transition: 1s ease-in-out; }
-        .curtain { flex: 1; background: var(--dark-red); display: flex; align-items: center; transition: 1.2s cubic-bezier(0.7, 0, 0.3, 1); }
-        .left-curtain { justify-content: flex-end; border-right: 1px solid rgba(255,215,0,0.2); }
-        .right-curtain { justify-content: flex-start; }
-        .opened .left-curtain { transform: translateX(-100%); }
-        .opened .right-curtain { transform: translateX(100%); }
-        .logo-box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10001; transition: 0.5s; cursor: pointer; }
-        .opened .logo-box { opacity: 0; pointer-events: none; }
-        .welcome-img { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent); box-shadow: 0 0 40px rgba(212, 0, 0, 0.6); animation: pulse 2s infinite; }
-
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* --- Navigation & Ticker --- */
-        .ticker { background: var(--primary); padding: 8px 0; overflow: hidden; position: sticky; top: 0; z-index: 999; font-size: 0.85rem; font-weight: bold; }
-        .ticker-wrap { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        nav { background: rgba(0,0,0,0.95); padding: 15px 8%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--accent); }
-
-        /* --- Hero Section --- */
-        .hero { 
-            height: 85vh; 
-            background: linear-gradient(rgba(0,0,0,0.3), var(--bg)), url('akd.jpg'); 
-            background-size: cover; background-position: center; 
-            display: flex; align-items: center; justify-content: center; text-align: center;
+        /* --- Custom Loader --- */
+        #loader {
+            position: fixed; inset: 0; background: black; z-index: 10000;
+            display: flex; align-items: center; justify-content: center; transition: 1s ease;
         }
-        .hero-content h1 { font-size: 4rem; color: var(--accent); text-shadow: 0 0 20px rgba(0,0,0,1); margin-bottom: 10px; }
-        .pledge-btn { background: var(--primary); color: white; border: none; padding: 18px 45px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(212, 0, 0, 0.3); }
-        .pledge-btn:hover { background: #ff0000; transform: scale(1.05); }
+        .loader-circle { width: 100px; height: 100px; border: 5px solid #111; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- Stats/Achievements Section --- */
-        .section { padding: 80px 10%; }
-        .section-title { text-align: center; font-size: 2rem; margin-bottom: 50px; color: var(--accent); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid #222; transition: 0.3s; text-align: center; }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); background: #1a1a1a; }
-        .card i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+        /* --- Premium Navbar --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px);
+            z-index: 1000; border-bottom: 1px solid var(--glass-border);
+        }
+        .nav-brand { font-weight: 800; font-size: 1.5rem; color: var(--primary); letter-spacing: 2px; }
+        .nav-links a { color: #aaa; text-decoration: none; margin-left: 30px; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: white; text-shadow: 0 0 10px white; }
 
-        /* --- Video & Feedback --- */
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 20px; overflow: hidden; border: 2px solid #333; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        
-        .form-container { background: var(--card-bg); padding: 40px; border-radius: 25px; border: 1px solid #333; max-width: 800px; margin: auto; }
-        input, textarea, select { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #444; color: white; border-radius: 10px; }
-        
-        /* --- AI Chatbot Modern UI --- */
-        #ai-btn { position: fixed; bottom: 30px; right: 30px; background: var(--primary); width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 30px rgba(212,0,0,0.4); }
-        #ai-window { position: fixed; bottom: 110px; right: 30px; width: 350px; background: white; border-radius: 20px; display: none; z-index: 2000; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .chat-header { background: var(--primary); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
-        .chat-body { height: 300px; overflow-y: auto; padding: 20px; background: #f4f4f4; color: #333; font-size: 0.9rem; }
+        /* --- Dynamic Hero --- */
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at center, rgba(255, 31, 31, 0.1) 0%, transparent 70%), url('akd.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            text-align: center;
+        }
+        .hero-title { font-size: 5rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(to bottom, #fff 40%, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-btn {
+            background: var(--primary); color: white; border: none; padding: 20px 50px;
+            border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.4s;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+        .hero-btn:hover { background: white; color: black; transform: scale(1.05); }
+
+        /* --- Content Sections --- */
+        .container { padding: 100px 10%; }
+        .glass-card {
+            background: var(--glass); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); padding: 40px; border-radius: 20px;
+            transition: 0.5s;
+        }
+        .glass-card:hover { background: rgba(255, 255, 255, 0.07); border-color: var(--primary); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        /* --- Floating Chatbot --- */
+        #chat-trigger {
+            position: fixed; bottom: 40px; right: 40px; width: 70px; height: 70px;
+            background: var(--primary); border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(255, 31, 31, 0.4); z-index: 2000; transition: 0.3s;
+        }
+        #chat-trigger:hover { transform: rotate(15deg) scale(1.1); }
+
+        #chat-ui {
+            position: fixed; bottom: 120px; right: 40px; width: 350px; height: 450px;
+            background: #111; border: 1px solid var(--glass-border); border-radius: 20px;
+            display: none; flex-direction: column; z-index: 2000; overflow: hidden;
+        }
+        .chat-head { background: var(--primary); padding: 20px; font-weight: bold; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; font-size: 0.9rem; }
+        .chat-input { padding: 15px; background: #000; display: flex; border-top: 1px solid #222; }
+        .chat-input input { flex: 1; background: transparent; border: none; color: white; outline: none; }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) { .hero-title { font-size: 3rem; } }
     </style>
 </head>
-<body onload="startTime()">
+<body>
 
-<div id="welcome-screen" onclick="openSite()">
-    <div class="logo-box">
-        <img src="npp1.jpg" class="welcome-img">
-        <h2 style="color:white; margin-top: 20px; letter-spacing: 3px;">NPP DIGITAL HUB</h2>
-        <small style="color:var(--accent);">Click to Enter</small>
-    </div>
-    <div class="curtain left-curtain"></div>
-    <div class="curtain right-curtain"></div>
-</div>
-
-<div class="ticker">
-    <div class="ticker-wrap">
-        🔴 සහල් සහ අත්‍යවශ්‍ය භාණ්ඩ මිල පාලනයට නව පියවර... | 🔴 ඉන්ධන මිල සූත්‍රය විනිවිද පෙනෙන ලෙස සංශෝධනය වේ... | 🔴 දූෂණ විරෝධී පනත යටතේ විමර්ශන වේගවත් කෙරේ...
-    </div>
-</div>
+<div id="loader"><div class="loader-circle"></div></div>
 
 <nav>
-    <div style="font-weight: 800; font-size: 1.5rem; letter-spacing: 1px;">ANURA<span style="color:var(--primary)">2029</span></div>
+    <div class="nav-brand">NPP DIGITAL</div>
     <div class="nav-links">
-        <a href="#vision">VISION</a>
-        <a href="#video">MEDIA</a>
-        <a href="#feedback">FEEDBACK</a>
+        <a href="#about">VISION</a>
+        <a href="#stats">PROGRESS</a>
+        <a href="#feedback">CONNECT</a>
     </div>
 </nav>
 
 <section class="hero">
-    <div class="hero-content">
-        <h1>අනුර කුමාර දිසානායක</h1>
-        <p style="font-size: 1.4rem; margin-bottom: 30px; letter-spacing: 2px;">පොහොසත් රටක් - ලස්සන ජීවිතයක්</p>
-        <button class="pledge-btn" onclick="celebrate()">මම රට වෙනුවෙන් පොරොන්දු වෙමි</button>
+    <div data-aos="zoom-out" data-aos-duration="1500">
+        <h1 class="hero-title">ANURA KUMARA</h1>
+        <p style="font-size: 1.5rem; letter-spacing: 5px; margin-bottom: 40px; color: var(--secondary);">SRI LANKA 2029</p>
+        <button class="hero-btn" onclick="triggerConfetti()">PLEDGE FOR CHANGE</button>
     </div>
 </section>
 
-<div id="vision" class="section">
-    <h2 class="section-title">අපේ ප්‍රතිපත්තිමය ජයග්‍රහණ</h2>
+<div class="container" id="about">
     <div class="grid">
-        <div class="card">
-            <i class="fas fa-hand-holding-usd"></i>
-            <h3>ජනතා සහන</h3>
-            <p>ඉන්ධන සහ අත්‍යවශ්‍ය භාණ්ඩ මිල අඩු කරමින් ජනතාවගේ ජීවන බර ලිහිල් කිරීම.</p>
+        <div class="glass-card" data-aos="fade-up">
+            <i class="fas fa-shield-halved" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <h3>නීතියේ පාලනය</h3>
+            <p>දූෂණයෙන් තොර රාජ්‍ය සේවයක් සහ සැමට සමාන යුක්තිය ඉටු කිරීමේ සහතිකය.</p>
         </div>
-        <div class="card">
-            <i class="fas fa-gavel"></i>
-            <h3>යුක්තිය පසඳලීම</h3>
-            <p>වංචා දූෂණවලට එරෙහිව නීතිය තදින්ම ක්‍රියාත්මක කර මහජන මුදල් ආරක්ෂා කිරීම.</p>
+        <div class="glass-card" data-aos="fade-up" data-aos-delay="200">
+            <i class="fas fa-chart-line" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <h3>ස්ථාවර ආර්ථිකය</h3>
+            <p>නිෂ්පාදන ආර්ථිකයක් හරහා දේශීය සම්පත් උපරිම ලෙස භාවිතයට ගැනීම.</p>
         </div>
-        <div class="card">
-            <i class="fas fa-microchip"></i>
-            <h3>ඩිජිටල් අධ්‍යාපනය</h3>
-            <p>සෑම දරුවෙකුටම තාක්ෂණික අධ්‍යාපනය ලබාදෙමින් ලෝකය ජය ගැනීමට මග පෙන්වීම.</p>
+        <div class="glass-card" data-aos="fade-up" data-aos-delay="400">
+            <i class="fas fa-laptop-code" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <h3>තාක්ෂණික පිම්ම</h3>
+            <p>ශ්‍රී ලංකාව කලාපයේ තාක්ෂණික මධ්‍යස්ථානයක් බවට පත් කිරීමේ වැඩපිළිවෙළ.</p>
         </div>
     </div>
 </div>
 
-<div id="video" class="section" style="background: #000;">
-    <h2 class="section-title">විශේෂ මාධ්‍ය හමුව</h2>
-    <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
-    </div>
-</div>
-
-<div id="feedback" class="section">
-    <div class="form-container">
-        <h2 style="text-align: center; color: var(--accent); margin-bottom: 20px;">අනාගතය වෙනුවෙන් ඔබේ අදහස</h2>
+<div class="container" id="feedback">
+    <div class="glass-card" style="max-width: 700px; margin: auto;" data-aos="flip-left">
+        <h2 style="text-align: center; margin-bottom: 30px;">Direct Communication</h2>
         <form action="https://formspree.io/f/xnjwnyjg" method="POST">
-            <label>NPP රජය ගැන ඔබේ විවේචනය හෝ අදහස:</label>
-            <textarea name="opinion" placeholder="මෙහි ලියන්න..." required style="height: 120px;"></textarea>
-            
-            <label>වැඩිපුර අවධානය දිය යුතු ක්ෂේත්‍රය:</label>
-            <select name="priority">
-                <option value="it">තොරතුරු තාක්ෂණය (IT)</option>
-                <option value="education">අධ්‍යාපනය</option>
-                <option value="economy">ආර්ථිකය</option>
-            </select>
-            
-            <button type="submit" class="pledge-btn" style="width: 100%; border-radius: 10px; margin-top: 20px;">ඉදිරිපත් කරන්න</button>
+            <input type="text" name="name" placeholder="ඔබේ නම" style="width: 100%; padding: 15px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: white;">
+            <textarea name="message" placeholder="ඔබේ අදහස..." style="width: 100%; padding: 15px; height: 150px; background: #000; border: 1px solid #333; color: white; margin-bottom: 15px;"></textarea>
+            <button type="submit" class="hero-btn" style="width: 100%;">SEND MESSAGE</button>
         </form>
     </div>
 </div>
 
-<div id="ai-btn" onclick="toggleChat()">
-    <i class="fas fa-robot" style="color:white; font-size: 1.8rem;"></i>
+<div id="chat-trigger" onclick="toggleChat()">
+    <i class="fas fa-robot" style="font-size: 1.8rem; color: white;"></i>
 </div>
 
-<div id="ai-window">
-    <div class="chat-header">
-        <span>NPP Smart AI</span>
-        <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
+<div id="chat-ui">
+    <div class="chat-head">NPP AI ASSISTANT</div>
+    <div class="chat-body" id="chat-flow">
+        <p style="background: var(--glass); padding: 10px; border-radius: 10px;">ආයුබෝවන් සහිරු! අද මම ඔබට උදව් කරන්නේ කෙසේද?</p>
     </div>
-    <div id="chat-box" class="chat-body">
-        <p><b>AI:</b> ආයුබෝවන් සහිරු! NPP එකේ ප්‍රතිපත්ති ගැන ඕනෑම දෙයක් අහන්න.</p>
-    </div>
-    <div style="display: flex; padding: 10px; background: #eee;">
-        <input type="text" id="user-input" placeholder="ප්‍රශ්නය ලියන්න..." style="flex: 1; margin: 0; padding: 10px; color: black; background: white;">
-        <button onclick="askAI()" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 5px; margin-left: 5px;">Go</button>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="ප්‍රශ්නය මෙහි ලියන්න..." onkeypress="if(event.key==='Enter') sendChat()">
+        <i class="fas fa-paper-plane" style="cursor:pointer; color: var(--primary);" onclick="sendChat()"></i>
     </div>
 </div>
 
-<footer style="text-align: center; padding: 40px; color: #444; border-top: 1px solid #222;">
-    <p>&copy; 2026 Developed by Sahiru | Target: University of Moratuwa (IT)</p>
+<footer style="padding: 50px; text-align: center; border-top: 1px solid var(--glass-border); color: #444;">
+    <p>MASTERED BY SAHIRU | 2026 | MORATUWA BOUND</p>
 </footer>
 
 <script>
-    function openSite() {
-        document.getElementById('welcome-screen').classList.add('opened');
-        setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
-    }
+    // Initialize Animations
+    AOS.init();
 
-    function celebrate() {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d40000', '#ffd700', '#ffffff'] });
-        alert("රට වෙනුවෙන් ඔබේ පොරොන්දුව සටහන් විය!");
+    // Loader
+    window.onload = () => {
+        setTimeout(() => { document.getElementById('loader').style.opacity = '0';
+        setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1000); }, 500);
+    };
+
+    function triggerConfetti() {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff1f1f', '#ffffff', '#ffcc00'] });
     }
 
     function toggleChat() {
-        let win = document.getElementById('ai-window');
-        win.style.display = (win.style.display === 'block') ? 'none' : 'block';
+        let ui = document.getElementById('chat-ui');
+        ui.style.display = (ui.style.display === 'flex') ? 'none' : 'flex';
     }
 
-    function askAI() {
-        let input = document.getElementById('user-input').value.toLowerCase();
-        let box = document.getElementById('chat-box');
-        let res = "ඒ පිළිබඳ තොරතුරු අපේ ප්‍රතිපත්ති ප්‍රකාශනයේ ඇතුළත් වේ.";
+    function sendChat() {
+        let input = document.getElementById('user-input');
+        let flow = document.getElementById('chat-flow');
+        if(!input.value) return;
 
-        if(input.includes("මිල")) res = "අත්‍යවශ්‍ය ආහාර සහ ඉන්ධන මිල පාලනය කිරීමට රජය දැනටමත් පියවර ගෙන ඇත.";
-        else if(input.includes("අධ්‍යාපනය")) res = "නිදහස් අධ්‍යාපනය නවීකරණය කර තාක්ෂණය මුසු කිරීමට අප කැපවී සිටිමු.";
-        else if(input.includes("දූෂණය")) res = "දූෂණ විරෝධී පනත ක්‍රියාත්මක කර හොරකම් කළ මුදල් නැවත ලබා ගැනීම අපේ ප්‍රමුඛතාවයයි.";
-
-        box.innerHTML += `<p style="margin-top:10px;"><b>ඔබ:</b> ${input}</p><p><b>AI:</b> ${res}</p>`;
-        document.getElementById('user-input').value = "";
-        box.scrollTop = box.scrollHeight;
+        let userMsg = `<p style="text-align: right; margin: 10px 0; color: var(--secondary);"><b>You:</b> ${input.value}</p>`;
+        let aiMsg = `<p style="background: var(--glass); padding: 10px; border-radius: 10px; margin: 10px 0;"><b>AI:</b> ස්තූතියි! NPP ප්‍රතිපත්ති අනුව මෙයට පිළිතුරක් සූදානම් වෙමින් පවතී.</p>`;
+        
+        flow.innerHTML += userMsg + aiMsg;
+        input.value = "";
+        flow.scrollTop = flow.scrollHeight;
     }
 </script>
 
