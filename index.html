@@ -3,161 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPP Full Site | Anura 2029</title>
+    <title>NPP Official Digital Hub | Anura 2029</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { 
-            --primary: #e60000; 
-            --accent: #ffd700; 
-            --bg: #070707; 
-            --text: white; 
-            --glass: rgba(255, 255, 255, 0.05); 
+        :root {
+            --primary: #d40000;
+            --dark-red: #8b0000;
+            --accent: #ffd700;
+            --bg: #0a0a0a;
+            --card-bg: #151515;
+            --text: #ffffff;
         }
-        
-        * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { margin: 0; font-family: 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); }
-        
-        /* --- News Ticker --- */
-        .ticker { background: var(--primary); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; font-weight: bold; position: fixed; top: 0; width: 100%; z-index: 2000; }
-        .ticker-move { display: inline-block; animation: ticker 25s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
         /* --- Welcome Screen --- */
-        #welcome-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; cursor: pointer; }
-        .curtain { width: 50%; height: 100%; transition: transform 1.2s; background: #800000; display: flex; align-items: center; justify-content: center; }
-        .left { border-right: 1px solid rgba(255, 215, 0, 0.1); }
-        .opened .left { transform: translateX(-100%); }
-        .opened .right { transform: translateX(100%); }
-        .logo-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 10001; text-align: center; transition: 0.5s; }
-        .opened .logo-center { opacity: 0; pointer-events: none; }
-        .welcome-img { width: 130px; height: 130px; border-radius: 50%; border: 3px solid gold; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+        #welcome-screen { position: fixed; inset: 0; z-index: 10000; display: flex; transition: 1s ease-in-out; }
+        .curtain { flex: 1; background: var(--dark-red); display: flex; align-items: center; transition: 1.2s cubic-bezier(0.7, 0, 0.3, 1); }
+        .left-curtain { justify-content: flex-end; border-right: 1px solid rgba(255,215,0,0.2); }
+        .right-curtain { justify-content: flex-start; }
+        .opened .left-curtain { transform: translateX(-100%); }
+        .opened .right-curtain { transform: translateX(100%); }
+        .logo-box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10001; transition: 0.5s; cursor: pointer; }
+        .opened .logo-box { opacity: 0; pointer-events: none; }
+        .welcome-img { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent); box-shadow: 0 0 40px rgba(212, 0, 0, 0.6); animation: pulse 2s infinite; }
 
-        /* --- General Layout --- */
-        nav { background: rgba(0,0,0,0.9); padding: 15px 8%; border-bottom: 1px solid #222; margin-top: 40px; /* Ticker එක නිසා */ }
-        
-        /* --- Hero Section with AKD Photo --- */
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* --- Navigation & Ticker --- */
+        .ticker { background: var(--primary); padding: 8px 0; overflow: hidden; position: sticky; top: 0; z-index: 999; font-size: 0.85rem; font-weight: bold; }
+        .ticker-wrap { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        nav { background: rgba(0,0,0,0.95); padding: 15px 8%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- Hero Section --- */
         .hero { 
-            height: 90vh; 
-            /* සහිරු, මෙන්න මෙතනට akd.jpg එක ලස්සනට දාලා තියෙනවා */
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(7,7,7,1)), url('akd.jpg'); 
-            background-size: cover; 
-            background-position: center; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
+            height: 85vh; 
+            background: linear-gradient(rgba(0,0,0,0.3), var(--bg)), url('akd.jpg'); 
+            background-size: cover; background-position: center; 
+            display: flex; align-items: center; justify-content: center; text-align: center;
         }
+        .hero-content h1 { font-size: 4rem; color: var(--accent); text-shadow: 0 0 20px rgba(0,0,0,1); margin-bottom: 10px; }
+        .pledge-btn { background: var(--primary); color: white; border: none; padding: 18px 45px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(212, 0, 0, 0.3); }
+        .pledge-btn:hover { background: #ff0000; transform: scale(1.05); }
 
-        .section { padding: 50px 8%; max-width: 1200px; margin: auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--glass); padding: 25px; border-radius: 15px; border-left: 4px solid var(--primary); transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); }
+        /* --- Stats/Achievements Section --- */
+        .section { padding: 80px 10%; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 50px; color: var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid #222; transition: 0.3s; text-align: center; }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); background: #1a1a1a; }
+        .card i { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+
+        /* --- Video & Feedback --- */
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 20px; overflow: hidden; border: 2px solid #333; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         
-        /* --- Video & Form --- */
-        .video-box { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; margin: 20px 0; border: 1px solid #333; }
-        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; background: #111; color: white; border: 1px solid #333; border-radius: 5px; }
-
-        /* --- AI Chatbot UI --- */
-        #ai-icon { position: fixed; bottom: 20px; right: 20px; background: var(--primary); width: 55px; height: 55px; border-radius: 50%; text-align: center; line-height: 55px; font-size: 24px; cursor: pointer; z-index: 2000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        #ai-window { position: fixed; bottom: 85px; right: 20px; width: 300px; background: white; color: black; border-radius: 15px; display: none; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; }
-        #chat-header { background: var(--primary); color: white; padding: 12px; font-weight: bold; }
-        #chat-content { height: 220px; overflow-y: auto; padding: 15px; font-size: 14px; background: #f9f9f9; }
-        .chat-input { display: flex; padding: 10px; background: #eee; }
-        .chat-input input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; color: black; background: white; margin: 0; }
+        .form-container { background: var(--card-bg); padding: 40px; border-radius: 25px; border: 1px solid #333; max-width: 800px; margin: auto; }
+        input, textarea, select { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #444; color: white; border-radius: 10px; }
+        
+        /* --- AI Chatbot Modern UI --- */
+        #ai-btn { position: fixed; bottom: 30px; right: 30px; background: var(--primary); width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 30px rgba(212,0,0,0.4); }
+        #ai-window { position: fixed; bottom: 110px; right: 30px; width: 350px; background: white; border-radius: 20px; display: none; z-index: 2000; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .chat-header { background: var(--primary); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
+        .chat-body { height: 300px; overflow-y: auto; padding: 20px; background: #f4f4f4; color: #333; font-size: 0.9rem; }
     </style>
 </head>
 <body onload="startTime()">
 
-<!-- Welcome Screen -->
 <div id="welcome-screen" onclick="openSite()">
-    <div class="logo-center">
-        <img src="npp1.jpg" class="welcome-img" alt="NPP Logo">
-        <h2 style="color:white; margin-top: 15px;">NPP 2029</h2>
+    <div class="logo-box">
+        <img src="npp1.jpg" class="welcome-img">
+        <h2 style="color:white; margin-top: 20px; letter-spacing: 3px;">NPP DIGITAL HUB</h2>
+        <small style="color:var(--accent);">Click to Enter</small>
     </div>
-    <div class="curtain left"></div>
-    <div class="curtain right"></div>
+    <div class="curtain left-curtain"></div>
+    <div class="curtain right-curtain"></div>
 </div>
 
-<!-- News Ticker -->
-<div class="ticker"><div class="ticker-move">🔴 සහල් මිල පාලනය කෙරේ | 🔴 ඉන්ධන සහ ගෑස් මිල අඩු විය | 🔴 අධ්‍යාපන ප්‍රතිසංස්කරණ ඇරඹේ</div></div>
+<div class="ticker">
+    <div class="ticker-wrap">
+        🔴 සහල් සහ අත්‍යවශ්‍ය භාණ්ඩ මිල පාලනයට නව පියවර... | 🔴 ඉන්ධන මිල සූත්‍රය විනිවිද පෙනෙන ලෙස සංශෝධනය වේ... | 🔴 දූෂණ විරෝධී පනත යටතේ විමර්ශන වේගවත් කෙරේ...
+    </div>
+</div>
 
-<nav><strong>NPP SRI LANKA | ANURA 2029</strong></nav>
+<nav>
+    <div style="font-weight: 800; font-size: 1.5rem; letter-spacing: 1px;">ANURA<span style="color:var(--primary)">2029</span></div>
+    <div class="nav-links">
+        <a href="#vision">VISION</a>
+        <a href="#video">MEDIA</a>
+        <a href="#feedback">FEEDBACK</a>
+    </div>
+</nav>
 
-<!-- Hero Section with Background Photo -->
 <section class="hero">
-    <div style="padding: 20px;">
-        <h1 style="font-size: 3rem; color:var(--accent); text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">අනුර කුමාර දිසානායක</h1>
-        <p style="font-size: 1.2rem; text-shadow: 1px 1px 5px rgba(0,0,0,0.8);">පොහොසත් රටක් - ලස්සන ජීවිතයක්</p>
-        <button onclick="pledge()" style="background:var(--primary); color:white; border:none; padding:15px 30px; border-radius:30px; cursor:pointer; font-weight:bold; margin-top: 20px;">රට වෙනුවෙන් පොරොන්දු වෙමි</button>
+    <div class="hero-content">
+        <h1>අනුර කුමාර දිසානායක</h1>
+        <p style="font-size: 1.4rem; margin-bottom: 30px; letter-spacing: 2px;">පොහොසත් රටක් - ලස්සන ජීවිතයක්</p>
+        <button class="pledge-btn" onclick="celebrate()">මම රට වෙනුවෙන් පොරොන්දු වෙමි</button>
     </div>
 </section>
 
-<!-- Policies Section -->
-<div class="section">
-    <h2 style="text-align: center; color: var(--accent);">අපේ ප්‍රධාන දැක්ම</h2>
+<div id="vision" class="section">
+    <h2 class="section-title">අපේ ප්‍රතිපත්තිමය ජයග්‍රහණ</h2>
     <div class="grid">
-        <div class="card"><h3>ජනතා සහන</h3><p>අත්‍යවශ්‍ය භාණ්ඩ හා ඉන්ධන මිල අඩු කර ජනතාවට සහන සැලසීම.</p></div>
-        <div class="card"><h3>නීතියේ ආධිපත්‍යය</h3><p>දූෂණය පිටුදැක, හොරකම් කළ මහජන මුදල් නැවත ලබා ගැනීම.</p></div>
-        <div class="card"><h3>නිදහස් අධ්‍යාපනය</h3><p>IT සහ තාක්ෂණික විෂයන් දියුණු කර අනාගතය ජය ගැනීම.</p></div>
+        <div class="card">
+            <i class="fas fa-hand-holding-usd"></i>
+            <h3>ජනතා සහන</h3>
+            <p>ඉන්ධන සහ අත්‍යවශ්‍ය භාණ්ඩ මිල අඩු කරමින් ජනතාවගේ ජීවන බර ලිහිල් කිරීම.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-gavel"></i>
+            <h3>යුක්තිය පසඳලීම</h3>
+            <p>වංචා දූෂණවලට එරෙහිව නීතිය තදින්ම ක්‍රියාත්මක කර මහජන මුදල් ආරක්ෂා කිරීම.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-microchip"></i>
+            <h3>ඩිජිටල් අධ්‍යාපනය</h3>
+            <p>සෑම දරුවෙකුටම තාක්ෂණික අධ්‍යාපනය ලබාදෙමින් ලෝකය ජය ගැනීමට මග පෙන්වීම.</p>
+        </div>
     </div>
 </div>
 
-<!-- Video Section -->
-<div class="section">
-    <div class="video-box"><iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe></div>
+<div id="video" class="section" style="background: #000;">
+    <h2 class="section-title">විශේෂ මාධ්‍ය හමුව</h2>
+    <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/cxw-9J1SQMg" frameborder="0" allowfullscreen></iframe>
+    </div>
 </div>
 
-<!-- Feedback Form Section -->
-<div class="section">
-    <div style="background:var(--glass); padding:30px; border-radius:15px; max-width: 600px; margin: auto; border: 1px solid #222;">
-        <h3>ඔබේ අදහස්</h3>
+<div id="feedback" class="section">
+    <div class="form-container">
+        <h2 style="text-align: center; color: var(--accent); margin-bottom: 20px;">අනාගතය වෙනුවෙන් ඔබේ අදහස</h2>
         <form action="https://formspree.io/f/xnjwnyjg" method="POST">
-            <label>NPP රජය ගැන ඔබේ අදහස:</label>
-            <textarea name="msg" required style="height: 100px;"></textarea>
-            <label>වැඩිපුර අවධානය යොමු කළ යුතු ක්ෂේත්‍රය:</label>
-            <select name="field">
-                <option>IT / තාක්ෂණය</option>
-                <option>අධ්‍යාපනය</option>
-                <option>ආර්ථිකය</option>
+            <label>NPP රජය ගැන ඔබේ විවේචනය හෝ අදහස:</label>
+            <textarea name="opinion" placeholder="මෙහි ලියන්න..." required style="height: 120px;"></textarea>
+            
+            <label>වැඩිපුර අවධානය දිය යුතු ක්ෂේත්‍රය:</label>
+            <select name="priority">
+                <option value="it">තොරතුරු තාක්ෂණය (IT)</option>
+                <option value="education">අධ්‍යාපනය</option>
+                <option value="economy">ආර්ථිකය</option>
             </select>
-            <button type="submit" style="background:var(--primary); color:white; border:none; padding:12px; width:100%; border-radius:5px; cursor:pointer; font-weight:bold; margin-top: 10px;">ඉදිරිපත් කරන්න</button>
+            
+            <button type="submit" class="pledge-btn" style="width: 100%; border-radius: 10px; margin-top: 20px;">ඉදිරිපත් කරන්න</button>
         </form>
     </div>
 </div>
 
-<!-- AI Chatbot UI -->
-<div id="ai-icon" onclick="toggleAI()">🤖</div>
+<div id="ai-btn" onclick="toggleChat()">
+    <i class="fas fa-robot" style="color:white; font-size: 1.8rem;"></i>
+</div>
+
 <div id="ai-window">
-    <div id="chat-header">Smart Assistant</div>
-    <div id="chat-content">
-        <p>ආයුබෝවන් සහිරු! NPP ප්‍රතිපත්ති ගැන ඕනෑම දෙයක් අහන්න.</p>
+    <div class="chat-header">
+        <span>NPP Smart AI</span>
+        <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
     </div>
-    <div class="chat-input">
-        <input type="text" id="u-msg" placeholder="අහන්න..." onkeypress="if(event.key==='Enter') ask()">
+    <div id="chat-box" class="chat-body">
+        <p><b>AI:</b> ආයුබෝවන් සහිරු! NPP එකේ ප්‍රතිපත්ති ගැන ඕනෑම දෙයක් අහන්න.</p>
+    </div>
+    <div style="display: flex; padding: 10px; background: #eee;">
+        <input type="text" id="user-input" placeholder="ප්‍රශ්නය ලියන්න..." style="flex: 1; margin: 0; padding: 10px; color: black; background: white;">
+        <button onclick="askAI()" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 5px; margin-left: 5px;">Go</button>
     </div>
 </div>
 
-<footer style="text-align: center; padding: 30px; color: #555; font-size: 0.8rem; border-top: 1px solid #222;">
-    &copy; 2026 Developed by Sahiru | Target: MORA IT
+<footer style="text-align: center; padding: 40px; color: #444; border-top: 1px solid #222;">
+    <p>&copy; 2026 Developed by Sahiru | Target: University of Moratuwa (IT)</p>
 </footer>
 
 <script>
-    function openSite() { document.getElementById('welcome-screen').classList.add('opened'); }
-    function pledge() { confetti(); alert("ඔබේ පොරොන්දුව සාර්ථකව සටහන් විය!"); }
-    function toggleAI() { let w = document.getElementById('ai-window'); w.style.display = w.style.display === 'block' ? 'none' : 'block'; }
-    function ask() {
-        let m = document.getElementById('u-msg').value;
-        let chat = document.getElementById('chat-content');
-        let r = "කණගාටුයි, ඒ ගැන මට තවම දැනුමක් නැහැ.";
-        if(m.includes("මිල")) r = "අත්‍යවශ්‍ය භාණ්ඩ හා ඉන්ධන මිල අඩු කිරීමට රජය පියවර ගෙන ඇත.";
-        else if(m.includes("අධ්‍යාපනය")) r = "නිදහස් අධ්‍යාපනය සුරක්ෂිත කර තාක්ෂණික විෂයන් දියුණු කරනවා.";
-        
-        chat.innerHTML += `<p><b>ඔබ:</b> ${m}</p><p><b>AI:</b> ${r}</p>`;
-        document.getElementById('u-msg').value = "";
-        chat.scrollTop = chat.scrollHeight;
+    function openSite() {
+        document.getElementById('welcome-screen').classList.add('opened');
+        setTimeout(() => { document.getElementById('welcome-screen').style.display = 'none'; }, 1200);
+    }
+
+    function celebrate() {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d40000', '#ffd700', '#ffffff'] });
+        alert("රට වෙනුවෙන් ඔබේ පොරොන්දුව සටහන් විය!");
+    }
+
+    function toggleChat() {
+        let win = document.getElementById('ai-window');
+        win.style.display = (win.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function askAI() {
+        let input = document.getElementById('user-input').value.toLowerCase();
+        let box = document.getElementById('chat-box');
+        let res = "ඒ පිළිබඳ තොරතුරු අපේ ප්‍රතිපත්ති ප්‍රකාශනයේ ඇතුළත් වේ.";
+
+        if(input.includes("මිල")) res = "අත්‍යවශ්‍ය ආහාර සහ ඉන්ධන මිල පාලනය කිරීමට රජය දැනටමත් පියවර ගෙන ඇත.";
+        else if(input.includes("අධ්‍යාපනය")) res = "නිදහස් අධ්‍යාපනය නවීකරණය කර තාක්ෂණය මුසු කිරීමට අප කැපවී සිටිමු.";
+        else if(input.includes("දූෂණය")) res = "දූෂණ විරෝධී පනත ක්‍රියාත්මක කර හොරකම් කළ මුදල් නැවත ලබා ගැනීම අපේ ප්‍රමුඛතාවයයි.";
+
+        box.innerHTML += `<p style="margin-top:10px;"><b>ඔබ:</b> ${input}</p><p><b>AI:</b> ${res}</p>`;
+        document.getElementById('user-input').value = "";
+        box.scrollTop = box.scrollHeight;
     }
 </script>
+
 </body>
 </html>
